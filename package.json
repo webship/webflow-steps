@@ -1,0 +1,59 @@
+{
+  "name": "@webship/webflow-steps",
+  "version": "2.0.0",
+  "description": "Custom Cucumber/Playwright step definitions (webflow.steps.js) for testing the main pages of Webflow-exported sites with webship-js.",
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "tests/step-definitions/webflow.steps.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "cucumber-js --config cucumber.js; node generate-reports.js;",
+    "test:chromium": "BROWSER=chromium cucumber-js --config cucumber.js",
+    "test:firefox": "BROWSER=firefox cucumber-js --config cucumber.js",
+    "test:webkit": "BROWSER=webkit cucumber-js --config cucumber.js",
+    "test:report": "node generate-reports.js",
+    "demo:start": "cd demo-site && ddev start",
+    "demo:stop": "cd demo-site && ddev stop",
+    "demo:serve": "http-server demo-site -p 8080 -s"
+  },
+  "keywords": [
+    "webflow",
+    "webship-js",
+    "cucumber",
+    "playwright",
+    "bdd",
+    "testing",
+    "step-definitions",
+    "plugin"
+  ],
+  "author": "Webship.co",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/webship/webflow-steps.git"
+  },
+  "bugs": {
+    "url": "https://github.com/webship/webflow-steps/issues"
+  },
+  "homepage": "https://github.com/webship/webflow-steps#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">= 20.0"
+  },
+  "peerDependencies": {
+    "webship-js": "^2.0.4"
+  },
+  "devDependencies": {
+    "webship-js": "^2.0.4",
+    "ts-node": "^10.9.2",
+    "typescript": "~5.9.0"
+  },
+  "overrides": {
+    "@cucumber/cucumber": "^12"
+  }
+}

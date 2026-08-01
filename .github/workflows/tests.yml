@@ -1,0 +1,59 @@
+name: Webship-js tests
+
+on:
+  push:
+    branches: [2.0.x]
+  pull_request: {}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Install DDEV
+        uses: ddev/github-action-setup-ddev@v1
+        with:
+          autostart: false
+
+      - name: Build and start the default demo website (DDEV)
+        run: |
+          cd demo-site
+          ddev start
+
+      - name: Wait for the demo site to be ready
+        run: |
+          for i in $(seq 1 30); do
+            curl -sf http://webflow-steps-demo.ddev.site/index.html > /dev/null && exit 0
+            sleep 2
+          done
+          echo "Demo site did not become ready in time" >&2
+          exit 1
+
+      - name: Run webship-js tests
+        env:
+          LAUNCH_URL: http://webflow-steps-demo.ddev.site
+        run: npm test
+
+      - name: Upload test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cucumber-report
+          path: |
+            tests/reports/
+            screenshots/
+          if-no-files-found: ignore
