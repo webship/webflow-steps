@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html data-wf-page="contact" data-wf-site="webflow-steps-demo">
+<head>
+  <meta charset="utf-8" />
+  <title>Webflow Steps Demo &mdash; Contact</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="css/demo.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+  <div data-collapse="medium" data-animation="default" data-duration="400" class="navbar w-nav">
+    <div class="w-container">
+      <a href="index.html" class="brand w-nav-brand">Webflow Steps Demo</a>
+      <nav role="navigation" class="nav-menu w-nav-menu">
+        <a href="index.html" class="nav-link w-nav-link">Home</a>
+        <a href="about.html" class="nav-link w-nav-link">About</a>
+        <a href="services.html" class="nav-link w-nav-link">Services</a>
+        <a href="contact.html" class="nav-link w-nav-link w--current">Contact</a>
+      </nav>
+      <div class="menu-button w-nav-button" aria-label="menu" role="button">
+        <div class="w-icon-nav-menu"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section hero">
+    <div class="w-container">
+      <h1>Contact us</h1>
+      <p class="paragraph">Send us a message and we'll get back to you.</p>
+    </div>
+  </div>
+
+  <div class="section contact-form">
+    <div class="w-container">
+      <div class="w-form">
+        <form id="contact-form" name="contact-form" data-name="Contact Form" method="get">
+          <label for="name">Name</label>
+          <input type="text" class="text-field w-input" maxlength="256" name="name" data-name="Name" placeholder="Jane Doe" id="name" required="" />
+          <label for="email">Email</label>
+          <input type="email" class="text-field w-input" maxlength="256" name="email" data-name="Email" placeholder="you@example.com" id="email" required="" />
+          <label for="message">Message</label>
+          <textarea class="text-field w-input" maxlength="5000" name="message" data-name="Message" placeholder="How can we help?" id="message" required=""></textarea>
+          <input type="submit" value="Send message" class="button w-button" data-wait="Please wait..." />
+        </form>
+        <div class="w-form-done">
+          <div>Thank you! Your submission has been received!</div>
+        </div>
+        <div class="w-form-fail">
+          <div>Oops! Something went wrong while submitting the form.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer w-container">
+    <p>&copy; 2026 Webflow Steps Demo</p>
+  </div>
+  <script src="js/webflow-demo.js" defer></script>
+</body>
+</html>
