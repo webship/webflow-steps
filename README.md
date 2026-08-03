@@ -56,7 +56,7 @@ tests/
 
 ## Publishing
 
-The package is publish-ready: `name`, `main`, `files`, `peerDependencies` and `publishConfig.access` are all set in `package.json`. It is released to npmjs.com as [`@webship/webflow-steps`](https://www.npmjs.com/package/@webship/webflow-steps); development happens in this private GitHub repository.
+The package is publish-ready: `name`, `main`, `files`, `peerDependencies` and `publishConfig.access` are all set in `package.json`. It is released to npmjs.com as [`@webship-js/webflow-steps`](https://www.npmjs.com/package/@webship-js/webflow-steps); development happens in this private GitHub repository.
 
 ## License
 
