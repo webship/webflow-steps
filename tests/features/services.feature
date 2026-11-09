@@ -1,3 +1,5 @@
+# The copy, item counts and paths below are those of the demo site in demo-site/;
+# swap them for your own content when you copy this feature.
 Feature: Services page
   As a website visitor
   I want to browse the services page

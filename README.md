@@ -50,6 +50,37 @@ tests/
 .github/workflows/tests.yml   CI: builds the demo site with DDEV and runs tests/features against it on every push/PR
 ```
 
+## Steps
+
+| Step | Type |
+| --- | --- |
+| `I should( not) see the (webflow )navigation( menu)` | Then |
+| `I open the mobile( navigation) menu` / `I close the mobile( navigation) menu` | When |
+| `the mobile( navigation) menu should( not) be open\|closed` | Then |
+| `the "<label>" navigation link should( not) be the current page` | Then |
+| `I should see <n> item(s) in the "<class>" collection list` | Then |
+| `the "<class>" collection list should( not) be empty` | Then |
+| `I submit the (webflow )form` | When |
+| `I should( not) see the (webflow )form success\|error message\|state` | Then |
+| `this( page) should( not) be a webflow page` | Then |
+
+The product word is optional ("the webflow navigation" and "the navigation"
+both match), so a feature written for another pack reads here too. Every
+Then step takes `should` or `should not`, every pronoun step takes `I`, `we`
+or no pronoun, and every failure is a friendly message with a hint (no
+assertion or Playwright stack). Each assertion polls its condition for the
+`minWaitTime.page` budget (at least 10 s) instead of reading the page once,
+so the animated mobile menu and a collection list that is still rendering
+are waited for. The reference features assert the demo site's own copy,
+item counts and paths (`/about.html`, "Our team", ...); swap them for your
+site's content when you copy a feature.
+
+Every step's regex and five Gherkin examples are in the JSDoc block above it
+in [`tests/step-definitions/webflow.steps.js`](tests/step-definitions/webflow.steps.js);
+`npm run test:examples` checks that each example matches its own step (and no
+webship-js core step) and that every feature step is defined exactly once.
+CI runs it before the suite.
+
 ## CI
 
 `.github/workflows/tests.yml` installs DDEV on the runner, starts the `demo-site` DDEV project as the default test target, waits for it to become reachable, then runs the suite in `tests/features` against it with `cucumber-js`.
