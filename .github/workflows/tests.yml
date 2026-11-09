@@ -43,6 +43,9 @@ jobs:
           echo "Demo site did not become ready in time" >&2
           exit 1
 
+      - name: Check the JSDoc examples and feature steps against the step regexes
+        run: npm run test:examples
+
       - name: Run webship-js tests
         env:
           LAUNCH_URL: http://webflow-steps-demo.ddev.site
