@@ -1,0 +1,10 @@
+node_modules/
+tests/reports/
+screenshots/
+videos/
+npm-debug.log*
+
+demo-site/.ddev/db_snapshots/
+demo-site/.ddev/.dbimageBuild/
+demo-site/.ddev/.webimageBuild/
+demo-site/.ddev/.homeadditions/
