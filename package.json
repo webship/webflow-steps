@@ -1,6 +1,6 @@
 {
   "name": "@webship-js/webflow-steps",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Custom Cucumber/Playwright step definitions (webflow.steps.js) for testing the main pages of Webflow-exported sites with webship-js.",
   "main": "index.js",
   "files": [
