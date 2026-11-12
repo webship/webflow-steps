@@ -1,6 +1,6 @@
 {
   "name": "@webship-js/webflow-steps",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Step definitions for webship-js that understand the markup Webflow publishes: the Navbar, the current page link, CMS collection lists and forms.",
   "main": "index.js",
   "files": [
