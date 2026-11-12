@@ -17,6 +17,10 @@
 //   list; a dropdown with `data-hover="true"` also opens on hover;
 // - Lightbox: a click on `a.w-lightbox` adds `.w-lightbox-backdrop` to the
 //   body; closing adds `w-lightbox-hide` to it;
+// - Ecommerce: the Add to cart button puts the product in the cart (kept in the
+//   browser's session storage, as a cart is kept across the pages of a site),
+//   which updates the count in the open link, lists the item and the total,
+//   and opens the cart; the open and close links show and hide the cart;
 // - forms: a form with `data-turnstile-sitekey` keeps its submit button
 //   disabled until Cloudflare's Turnstile script hands over a token; the
 //   submit posts to the form endpoint, and `{"code": 200}` hides the form and
@@ -264,8 +268,63 @@
     });
   }
 
+  function readCart() {
+    try { return JSON.parse(sessionStorage.getItem('wf-demo-cart') || '[]'); } catch (e) { return []; }
+  }
+
+  function setUpCart(wrapper) {
+    var openLink = wrapper.querySelector('.w-commerce-commercecartopenlink');
+    var container = wrapper.querySelector('.w-commerce-commercecartcontainerwrapper');
+    var closeLink = wrapper.querySelector('.w-commerce-commercecartcloselink');
+    var count = wrapper.querySelector('.w-commerce-commercecartopenlinkcount');
+    var form = wrapper.querySelector('.w-commerce-commercecartform');
+    var empty = wrapper.querySelector('.w-commerce-commercecartemptystate');
+    var list = wrapper.querySelector('.w-commerce-commercecartlist');
+    var total = wrapper.querySelector('.w-commerce-commercecartordervalue');
+
+    function render() {
+      var items = readCart();
+      var sum = items.reduce(function (n, item) { return n + item.price; }, 0);
+      count.textContent = String(items.length);
+      openLink.setAttribute('aria-label', items.length ? 'Open cart containing ' + items.length + ' items' : 'Open empty cart');
+      list.innerHTML = '';
+      items.forEach(function (item) {
+        var row = document.createElement('div');
+        row.className = 'w-commerce-commercecartitem';
+        row.innerHTML = '<div class="w-commerce-commercecartiteminfo"><div class="w-commerce-commercecartproductname"></div></div>';
+        row.querySelector('.w-commerce-commercecartproductname').textContent = item.name;
+        list.appendChild(row);
+      });
+      form.style.display = items.length ? '' : 'none';
+      empty.style.display = items.length ? 'none' : '';
+      total.textContent = items.length ? '$' + sum.toFixed(2) + ' USD' : '';
+      var summary = document.querySelector('.w-commerce-commercecheckoutorderitemslist');
+      if (summary) {
+        summary.textContent = items.map(function (item) { return item.name; }).join(', ');
+        document.querySelector('.w-commerce-commercecheckoutsummarytotal').textContent = '$' + sum.toFixed(2) + ' USD';
+      }
+    }
+    function show(open) { container.style.display = open ? 'flex' : 'none'; }
+
+    openLink.addEventListener('click', function (event) { event.preventDefault(); show(true); });
+    closeLink.addEventListener('click', function (event) { event.preventDefault(); show(false); });
+    Array.prototype.forEach.call(document.querySelectorAll('.w-commerce-commerceaddtocartform'), function (addForm) {
+      addForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+        var card = addForm.closest('.product-card');
+        var items = readCart();
+        items.push({ name: card.querySelector('.product-name').textContent, price: parseFloat(card.querySelector('.product-price').textContent.replace('$', '')) });
+        sessionStorage.setItem('wf-demo-cart', JSON.stringify(items));
+        render();
+        if (wrapper.hasAttribute('data-open-product')) show(true);
+      });
+    });
+    render();
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     markCurrentLinks();
+    Array.prototype.forEach.call(document.querySelectorAll('.w-commerce-commercecartwrapper'), setUpCart);
     Array.prototype.forEach.call(document.querySelectorAll('.w-tabs'), setUpTabs);
     Array.prototype.forEach.call(document.querySelectorAll('.w-slider'), setUpSlider);
     Array.prototype.forEach.call(document.querySelectorAll('.w-dropdown'), setUpDropdown);

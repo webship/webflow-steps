@@ -12,3 +12,6 @@ body { font-family: Arial, sans-serif; margin: 0; color: #1a1a1a; }
 .form label { display: block; margin-top: 8px; }
 .form .w-input { max-width: 400px; }
 .footer { text-align: center; padding: 24px 0; color: #777; clear: both; }
+.product-card { border: 1px solid #eee; border-radius: 8px; margin-bottom: 16px; padding: 20px; }
+.product-name { margin-top: 0; }
+.cart { margin: 16px 20px; float: right; }
