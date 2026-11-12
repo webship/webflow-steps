@@ -1,6 +1,6 @@
 # webflow-steps
 
-Step definitions for [webship-js](https://www.npmjs.com/package/webship-js), a Playwright and Cucumber test framework, that understand the markup **Webflow itself publishes**: the Navbar and its mobile menu, the link of the current page, CMS collection lists, forms with their success and error states, and the page ids Webflow stamps on every page. They let a team write readable Gherkin scenarios for a Webflow site, a published one or a code export, without hand-writing CSS selectors.
+Step definitions for [webship-js](https://www.npmjs.com/package/webship-js), a Playwright and Cucumber test framework, that understand the markup **Webflow itself publishes**: the Navbar and its mobile menu, the link of the current page, CMS collection lists, forms with their success and error states, Tabs, Sliders, Dropdowns, Lightboxes, the Ecommerce cart and checkout, the Background Video control, and the ids Webflow stamps on every page. They let a team write readable Gherkin scenarios for a Webflow site, a published one or a code export, without hand-writing CSS selectors.
 
 The pack is a plugin for webship-js. It adds step files and a helpers module to an existing webship-js test project; it does not run on its own.
 
@@ -19,7 +19,7 @@ This repository is also a working test project. Its `demo-site/` is a small Webf
 - **Background video.** The video plays or is paused; a visitor can pause and play it with its control (WCAG 2.2.2 "Pause, Stop, Hide").
 - **Site identity.** The page is published by Webflow; the page belongs to the Webflow site with a given id; the "Made in Webflow" badge is shown or not.
 
-Every assertion takes `should` or `should not`, every action takes `I`, `we` or no pronoun, the product word is optional (`the webflow navigation` and `the navigation` both match), and every failure is a friendly message with a hint, not a stack trace. Each assertion waits for its condition for the `minWaitTime.page` budget (at least ten seconds), because Webflow animates its menus and answers its forms asynchronously.
+Every assertion takes `should` or `should not`, every action takes `I`, `we` or no pronoun, the word `webflow` is optional where it names a Webflow element (`the webflow navigation` and `the navigation` both match), and every failure is a friendly message with a hint, not a stack trace. Each assertion waits for its condition for the `minWaitTime.page` budget (at least ten seconds), because Webflow animates its menus and answers its forms asynchronously.
 
 The steps that add to a cart or take an order change a store's data: run them against a store in test mode. The steps that only look at the cart and the checkout page are safe on any store.
 
@@ -147,6 +147,28 @@ The steps rely on what Webflow's published stylesheet and script do, not on the 
 
 A collection list is named by a class: of its wrapper, of its `.w-dyn-items` element, of its items, or of the section around it, in that order. The name in the scenario is the name the designer sees in the Style panel.
 
+## Named selectors
+
+webship-js's named-selector steps (`Then I see visible <name>`, `Then I don't see <name>`, `Then I see <name> above <name>`, `When I click on <name>`) read names from a registry. The pack adds its own preset, [`tests/selectors/webflow.json`](tests/selectors/webflow.json), to every scenario, so these names work on any Webflow site with nothing configured. A name you define in `worldParameters.selectors` or load from `files` wins over the preset.
+
+| Name | Markup |
+| --- | --- |
+| `navbar`, `navbar menu`, `navbar button`, `navbar logo`, `navbar link`, `current page link` | the Navbar and its links |
+| `webflow form`, `form success message`, `form error message`, `form submit button` | forms |
+| `collection list`, `collection item`, `collection empty message` | CMS collection lists |
+| `tabs`, `tab link`, `selected tab`, `tab panel`, `shown tab panel` | Tabs |
+| `slider`, `slide`, `slider arrow previous`, `slider arrow next`, `slider dots` | Slider |
+| `dropdown`, `dropdown toggle`, `dropdown list`, `open dropdown list` | Dropdown |
+| `lightbox`, `lightbox backdrop` | Lightbox (the backdrop only while open) |
+| `cart`, `cart open link`, `cart close link`, `cart container`, `cart empty message`, `cart checkout button`, `add to cart button`, `out of stock message`, `add to cart error`, `checkout form` | Ecommerce |
+| `background video`, `background video control`, `webflow badge`, `rich text` | media and page |
+
+```gherkin
+When I am on the homepage
+Then I see visible navbar, collection list, webflow form
+And I don't see form success message, webflow badge
+```
+
 ## Forms: success and error states
 
 The real form endpoint belongs to Webflow, and a Turnstile-protected form cannot be submitted by a scripted browser. Two Given steps replace both outside services, so a scenario can prove how a site behaves in each state, on a public site as well, without sending anything to it. Give them before opening the page:
@@ -189,6 +211,7 @@ tests/
   live/                         Read-only checks against public Webflow template sites
   step-definitions/
     webflow-helpers.js          Shared helpers (not a step file)
+    webflow-defaults.js         Adds the named selectors to every scenario (a hook, no steps)
     webflow-navigation.steps.js
     webflow-cms.steps.js
     webflow-forms.steps.js
@@ -197,7 +220,7 @@ tests/
     webflow-media.steps.js
     webflow-site.steps.js
   features/                     The scenarios against demo-site/, one file per area or page
-  selectors/                    Named selectors (webship-js)
+  selectors/webflow.json        The named selectors the pack adds (see Named selectors)
   reports/                      Generated test reports (not committed)
 
 .github/workflows/tests.yml     CI: starts the demo site with DDEV, runs the checks and the suite
