@@ -52,3 +52,11 @@ Feature: Interactive components
     Then the lightbox should be open
     When I close the lightbox
     Then the lightbox should not be open
+
+  Scenario: The background video plays, and a visitor can pause it
+    Then the background video should be playing
+    And the background video should have a pause control
+    When I pause the background video
+    Then the background video should not be playing
+    When I play the background video
+    Then the background video should be playing

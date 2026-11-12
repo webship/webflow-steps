@@ -16,7 +16,8 @@ This repository is also a working test project. Its `demo-site/` is a small Webf
 - **Dropdown.** Open or close a dropdown by its toggle text, it is open, it lists a link.
 - **Lightbox.** Open and close it, it is open.
 - **Ecommerce.** The cart opens, closes, is empty or holds items, a product, a total; continue to the checkout; add the product of the page to the cart; the product is out of stock; the add to cart error; the checkout form and its sections.
-- **Site identity.** The page is published by Webflow; the page belongs to the Webflow site with a given id.
+- **Background video.** The video plays or is paused; a visitor can pause and play it with its control (WCAG 2.2.2 "Pause, Stop, Hide").
+- **Site identity.** The page is published by Webflow; the page belongs to the Webflow site with a given id; the "Made in Webflow" badge is shown or not.
 
 Every assertion takes `should` or `should not`, every action takes `I`, `we` or no pronoun, the product word is optional (`the webflow navigation` and `the navigation` both match), and every failure is a friendly message with a hint, not a stack trace. Each assertion waits for its condition for the `minWaitTime.page` budget (at least ten seconds), because Webflow animates its menus and answers its forms asynchronously.
 
@@ -113,6 +114,10 @@ webship-js writes an HTML report to `tests/reports/cucumber_report.html` after e
 | `I should( not) see the add to cart error` | Then |
 | `I should( not) see the checkout form` | Then |
 | `the checkout form should( not) have the "<section>" section` | Then |
+| `the background video should( not) be playing` | Then |
+| `the background video should( not) have a pause control` | Then |
+| `I pause\|play the background video` | When |
+| `I should( not) see the Webflow badge` | Then |
 | `this( page) should( not) be a webflow page` | Then |
 | `this( page) should be the webflow site "<id>"` | Then |
 
@@ -136,6 +141,8 @@ The steps rely on what Webflow's published stylesheet and script do, not on the 
 | Cart | `.w-commerce-commercecartwrapper` holds the open link (`.w-commerce-commercecartopenlink`, with the item count in `.w-commerce-commercecartopenlinkcount`) and the cart (`.w-commerce-commercecartcontainerwrapper`, `display: none` until it opens) with its items (`.w-commerce-commercecartitem`, named by `.w-commerce-commercecartproductname`), total (`.w-commerce-commercecartordervalue`) and checkout button. |
 | Product | `form.w-commerce-commerceaddtocartform` with `.w-commerce-commerceaddtocartbutton`; `.w-commerce-commerceaddtocartoutofstock` and `.w-commerce-commerceaddtocarterror` are shown when needed. |
 | Checkout | `.w-commerce-commercecheckoutformcontainer` with the sections `customerinfo`, `shippingaddress`, `shippingmethods`, `paymentinfo` and `ordersummary` (`.w-commerce-commercecheckout<name>wrapper`). |
+| Background video | `.w-background-video` with a `video` and, when the designer shows it, the control `.w-background-video--control` (two labels, "Pause video" and "Play video", one of them `hidden`). |
+| Badge | `a.w-webflow-badge`, added by Webflow's script when `<html data-wf-status>` is set (the free hosting plan). |
 | Page | `<html data-wf-page data-wf-site data-wf-domain>` on every published page. |
 
 A collection list is named by a class: of its wrapper, of its `.w-dyn-items` element, of its items, or of the section around it, in that order. The name in the scenario is the name the designer sees in the Style panel.
@@ -160,7 +167,7 @@ Use them on a staging copy of the site or on a read-only check. They do not bypa
 
 ## Run the steps against a public Webflow site
 
-`tests/live/` holds read-only checks against public Webflow template sites (`auvra`, `koorse`, `clientflow`), to prove the steps read what a real Webflow runtime produces, and not only what `demo-site/` serves. The file name is the site: `tests/live/auvra.feature` runs against `https://auvra.webflow.io`.
+`tests/live/` holds read-only checks against public Webflow template sites (`auvra`, `koorse`, `clientflow`, `deluix`), to prove the steps read what a real Webflow runtime produces, and not only what `demo-site/` serves. The file name is the site: `tests/live/auvra.feature` runs against `https://auvra.webflow.io`.
 
 ```bash
 npm run test:live              # every file in tests/live
@@ -173,7 +180,7 @@ They are outside the default run: they need the network, and the sites belong to
 
 ```
 demo-site/                      The demo site (a DDEV project) used as the test target
-  index.html, about.html, services.html, contact.html, components.html, shop.html, checkout.html
+  index.html, about.html, services.html, contact.html, components.html, shop.html, checkout.html, media/background.webm
   css/webflow-base.css          The rules of Webflow's published stylesheet that the pages use
   css/demo.css                  The look of the pages
   js/webflow-demo.js            A small stand-in for Webflow's script: current link, Navbar, tabs, slider, dropdown, lightbox, cart, forms
@@ -187,6 +194,7 @@ tests/
     webflow-forms.steps.js
     webflow-components.steps.js
     webflow-commerce.steps.js
+    webflow-media.steps.js
     webflow-site.steps.js
   features/                     The scenarios against demo-site/, one file per area or page
   selectors/                    Named selectors (webship-js)

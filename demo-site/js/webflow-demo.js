@@ -21,6 +21,8 @@
 //   browser's session storage, as a cart is kept across the pages of a site),
 //   which updates the count in the open link, lists the item and the total,
 //   and opens the cart; the open and close links show and hide the cart;
+// - Background Video: the control pauses and plays the video and swaps which of
+//   its two labels is hidden;
 // - forms: a form with `data-turnstile-sitekey` keeps its submit button
 //   disabled until Cloudflare's Turnstile script hands over a token; the
 //   submit posts to the form endpoint, and `{"code": 200}` hides the form and
@@ -322,8 +324,20 @@
     render();
   }
 
+  function setUpBackgroundVideo(control) {
+    var video = document.getElementById(control.getAttribute('aria-controls'));
+    var labels = control.querySelectorAll('span');
+    control.addEventListener('click', function () {
+      var play = video.paused;
+      if (play) video.play(); else video.pause();
+      labels[0].hidden = !play;
+      labels[1].hidden = play;
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     markCurrentLinks();
+    Array.prototype.forEach.call(document.querySelectorAll('.w-background-video--control'), setUpBackgroundVideo);
     Array.prototype.forEach.call(document.querySelectorAll('.w-commerce-commercecartwrapper'), setUpCart);
     Array.prototype.forEach.call(document.querySelectorAll('.w-tabs'), setUpTabs);
     Array.prototype.forEach.call(document.querySelectorAll('.w-slider'), setUpSlider);
