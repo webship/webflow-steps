@@ -1,22 +1,23 @@
 <!DOCTYPE html>
-<html data-wf-page="services" data-wf-site="webflow-steps-demo">
+<html data-wf-domain="webflow-steps-demo.ddev.site" data-wf-page="6a1f3c0b9d2e4a5b8c7d6e13" data-wf-site="6a1f3c0b9d2e4a5b8c7d6e01" lang="en">
 <head>
   <meta charset="utf-8" />
   <title>Webflow Steps Demo &mdash; Services</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="css/demo.css" rel="stylesheet" type="text/css" />
+  <link href="/css/webflow-base.css" rel="stylesheet" type="text/css" />
+  <link href="/css/demo.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-  <div data-collapse="medium" data-animation="default" data-duration="400" class="navbar w-nav">
+  <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar w-nav">
     <div class="w-container">
-      <a href="index.html" class="brand w-nav-brand">Webflow Steps Demo</a>
+      <a href="/index.html" class="brand w-nav-brand">Webflow Steps Demo</a>
       <nav role="navigation" class="nav-menu w-nav-menu">
-        <a href="index.html" class="nav-link w-nav-link">Home</a>
-        <a href="about.html" class="nav-link w-nav-link">About</a>
-        <a href="services.html" class="nav-link w-nav-link w--current">Services</a>
-        <a href="contact.html" class="nav-link w-nav-link">Contact</a>
+        <a href="/index.html" class="nav-link w-nav-link">Home</a>
+        <a href="/about.html" class="nav-link w-nav-link">About</a>
+        <a href="/services.html" aria-current="page" class="nav-link-block w-inline-block w--current">Services</a>
+        <a href="/contact.html" class="nav-link-block w-inline-block">Contact</a>
       </nav>
-      <div class="menu-button w-nav-button" aria-label="menu" role="button">
+      <div class="menu-button w-nav-button">
         <div class="w-icon-nav-menu"></div>
       </div>
     </div>
@@ -36,12 +37,12 @@
           <div role="listitem" class="collection-item w-dyn-item pricing-card">
             <h3>Starter</h3>
             <p class="price">$19/mo</p>
-            <a href="contact.html" class="button w-button">Choose plan</a>
+            <a href="/contact.html" class="button w-button">Choose plan</a>
           </div>
           <div role="listitem" class="collection-item w-dyn-item pricing-card">
             <h3>Pro</h3>
             <p class="price">$49/mo</p>
-            <a href="contact.html" class="button w-button">Choose plan</a>
+            <a href="/contact.html" class="button w-button">Choose plan</a>
           </div>
         </div>
       </div>
@@ -51,6 +52,6 @@
   <div class="footer w-container">
     <p>&copy; 2026 Webflow Steps Demo</p>
   </div>
-  <script src="js/webflow-demo.js" defer></script>
+  <script src="/js/webflow-demo.js" defer></script>
 </body>
 </html>

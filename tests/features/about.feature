@@ -13,8 +13,18 @@ Feature: About page
     And I should see the webflow navigation menu
     And I should see "About us"
     And I should see 2 items in the "team" collection list
+    And I should see at least 1 item in the "team" collection list
+    And the "team" collection list should contain "Ava Stone"
     And the "About" navigation link should be the current page
     And the "Home" navigation link should not be the current page
+
+  Scenario: A collection with no items shows the empty message
+    Given I am an anonymous user
+    When I am on the "/about.html" page
+    Then the "archive" collection list should be empty
+    And the "archive" collection list should show the empty message
+    And the "team" collection list should not be empty
+    And the "team" collection list should not show the empty message
 
   @mobile
   Scenario: View the about page on mobile

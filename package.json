@@ -1,11 +1,11 @@
 {
   "name": "@webship-js/webflow-steps",
   "version": "2.0.1",
-  "description": "Custom Cucumber/Playwright step definitions (webflow.steps.js) for testing the main pages of Webflow-exported sites with webship-js.",
+  "description": "Step definitions for webship-js that understand the markup Webflow publishes: the Navbar, the current page link, CMS collection lists and forms.",
   "main": "index.js",
   "files": [
     "index.js",
-    "tests/step-definitions/webflow.steps.js",
+    "tests/step-definitions/",
     "README.md",
     "LICENSE"
   ],
@@ -16,9 +16,10 @@
     "test:webkit": "BROWSER=webkit cucumber-js --config cucumber.js",
     "test:report": "generate-reports",
     "test:examples": "node scripts/check-examples.js",
+    "test:live": "node scripts/run-live.js",
     "demo:start": "cd demo-site && ddev start",
     "demo:stop": "cd demo-site && ddev stop",
-    "demo:serve": "http-server demo-site -p 8080 -s"
+    "demo:serve": "npx --yes http-server demo-site -p 8080 -s"
   },
   "keywords": [
     "webflow",
