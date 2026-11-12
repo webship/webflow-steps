@@ -65,6 +65,8 @@ async function actOrExplain(action, target, fn, hint) {
 /**
  * Wait until `locator` has (or, with `negated`, has no) visible match, and
  * throw a friendly error otherwise: the wait and the assertion are one call.
+ * A page can hold many matches (a hidden success message beside a shown one);
+ * only a visible one counts.
  *
  * @param {import('playwright').Locator} locator
  * @param {string|null|undefined} negated - The captured " not" group, if any.
@@ -73,7 +75,7 @@ async function actOrExplain(action, target, fn, hint) {
  */
 async function assertPresence(locator, negated, { label, hint, timeout }) {
   try {
-    await locator.first().waitFor({ state: negated ? 'hidden' : 'visible', timeout });
+    await locator.filter({ visible: true }).first().waitFor({ state: negated ? 'hidden' : 'visible', timeout });
   } catch {
     throw friendly({
       message: negated

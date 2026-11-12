@@ -23,3 +23,18 @@ Feature: The Koorse template site on webflow.io
     Then the lightbox should be open
     When I close the lightbox
     Then the lightbox should be closed
+    And the cart should be closed
+    And the cart should be empty
+    When I open the cart
+    Then the cart should be open
+    And the cart should contain 0 items
+    And the cart should not contain "Course"
+    When I close the cart
+    Then the cart should not be open
+
+  Scenario: The checkout page shows the sections of its form
+    When I am on "/checkout"
+    Then I should see the checkout form
+    And the checkout form should have the "customer information" section
+    And the checkout form should have the "payment" section
+    And the checkout form should have the "order summary" section

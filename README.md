@@ -15,9 +15,12 @@ This repository is also a working test project. Its `demo-site/` is a small Webf
 - **Slider.** Go to the next or previous slide, which slide is shown, how many slides there are.
 - **Dropdown.** Open or close a dropdown by its toggle text, it is open, it lists a link.
 - **Lightbox.** Open and close it, it is open.
+- **Ecommerce.** The cart opens, closes, is empty or holds items, a product, a total; continue to the checkout; add the product of the page to the cart; the product is out of stock; the add to cart error; the checkout form and its sections.
 - **Site identity.** The page is published by Webflow; the page belongs to the Webflow site with a given id.
 
 Every assertion takes `should` or `should not`, every action takes `I`, `we` or no pronoun, the product word is optional (`the webflow navigation` and `the navigation` both match), and every failure is a friendly message with a hint, not a stack trace. Each assertion waits for its condition for the `minWaitTime.page` budget (at least ten seconds), because Webflow animates its menus and answers its forms asynchronously.
+
+The steps that add to a cart or take an order change a store's data: run them against a store in test mode. The steps that only look at the cart and the checkout page are safe on any store.
 
 Steps that webship-js already covers (clicking, filling in a field, asserting a text, a URL or a status code) are not repeated here; the scenarios use webship-js's own.
 
@@ -98,6 +101,18 @@ webship-js writes an HTML report to `tests/reports/cucumber_report.html` after e
 | `the "<text>" dropdown should( not) list "<text>"` | Then |
 | `I open the ("<class>" )lightbox` / `I close the lightbox` | When |
 | `the lightbox should( not) be open\|closed` | Then |
+| `I open\|close the cart` | When |
+| `the cart should( not) be open\|closed` | Then |
+| `the cart should( not) be empty` | Then |
+| `the cart should contain <n> item(s)` | Then |
+| `the cart should( not) contain "<product>"` | Then |
+| `the cart total should contain "<text>"` | Then |
+| `I continue to checkout` | When |
+| `I add the product to the cart` | When |
+| `the product should( not) be out of stock` | Then |
+| `I should( not) see the add to cart error` | Then |
+| `I should( not) see the checkout form` | Then |
+| `the checkout form should( not) have the "<section>" section` | Then |
 | `this( page) should( not) be a webflow page` | Then |
 | `this( page) should be the webflow site "<id>"` | Then |
 
@@ -118,6 +133,9 @@ The steps rely on what Webflow's published stylesheet and script do, not on the 
 | Slider | `.w-slider` (`role="region"`) > `.w-slider-mask` > `.w-slide`; the shown slide has no `aria-hidden="true"`. Arrows `.w-slider-arrow-left` and `-right`, dots `.w-slider-dot` (`w-active`), live region `.w-slider-aria-label` ("Slide 2 of 3."). A slider with `data-autoplay="true"` moves on by itself, so a slide can change between two steps. |
 | Dropdown | `.w-dropdown` > `.w-dropdown-toggle` (`aria-expanded`, `w--open`) + `.w-dropdown-list` (`w--open`). `data-hover="true"` opens it on hover. |
 | Lightbox | `a.w-lightbox` opens `.w-lightbox-backdrop` on the body (`w-lightbox-hide` when closed) with `.w-lightbox-close`. |
+| Cart | `.w-commerce-commercecartwrapper` holds the open link (`.w-commerce-commercecartopenlink`, with the item count in `.w-commerce-commercecartopenlinkcount`) and the cart (`.w-commerce-commercecartcontainerwrapper`, `display: none` until it opens) with its items (`.w-commerce-commercecartitem`, named by `.w-commerce-commercecartproductname`), total (`.w-commerce-commercecartordervalue`) and checkout button. |
+| Product | `form.w-commerce-commerceaddtocartform` with `.w-commerce-commerceaddtocartbutton`; `.w-commerce-commerceaddtocartoutofstock` and `.w-commerce-commerceaddtocarterror` are shown when needed. |
+| Checkout | `.w-commerce-commercecheckoutformcontainer` with the sections `customerinfo`, `shippingaddress`, `shippingmethods`, `paymentinfo` and `ordersummary` (`.w-commerce-commercecheckout<name>wrapper`). |
 | Page | `<html data-wf-page data-wf-site data-wf-domain>` on every published page. |
 
 A collection list is named by a class: of its wrapper, of its `.w-dyn-items` element, of its items, or of the section around it, in that order. The name in the scenario is the name the designer sees in the Style panel.
@@ -155,10 +173,10 @@ They are outside the default run: they need the network, and the sites belong to
 
 ```
 demo-site/                      The demo site (a DDEV project) used as the test target
-  index.html, about.html, services.html, contact.html, components.html
+  index.html, about.html, services.html, contact.html, components.html, shop.html, checkout.html
   css/webflow-base.css          The rules of Webflow's published stylesheet that the pages use
   css/demo.css                  The look of the pages
-  js/webflow-demo.js            A small stand-in for Webflow's script: current link, Navbar, tabs, slider, dropdown, lightbox, forms
+  js/webflow-demo.js            A small stand-in for Webflow's script: current link, Navbar, tabs, slider, dropdown, lightbox, cart, forms
 
 tests/
   live/                         Read-only checks against public Webflow template sites
@@ -168,6 +186,7 @@ tests/
     webflow-cms.steps.js
     webflow-forms.steps.js
     webflow-components.steps.js
+    webflow-commerce.steps.js
     webflow-site.steps.js
   features/                     The scenarios against demo-site/, one file per area or page
   selectors/                    Named selectors (webship-js)
