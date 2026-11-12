@@ -1,22 +1,23 @@
 <!DOCTYPE html>
-<html data-wf-page="contact" data-wf-site="webflow-steps-demo">
+<html data-wf-domain="webflow-steps-demo.ddev.site" data-wf-page="6a1f3c0b9d2e4a5b8c7d6e14" data-wf-site="6a1f3c0b9d2e4a5b8c7d6e01" lang="en">
 <head>
   <meta charset="utf-8" />
   <title>Webflow Steps Demo &mdash; Contact</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="css/demo.css" rel="stylesheet" type="text/css" />
+  <link href="/css/webflow-base.css" rel="stylesheet" type="text/css" />
+  <link href="/css/demo.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-  <div data-collapse="medium" data-animation="default" data-duration="400" class="navbar w-nav">
+  <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar w-nav">
     <div class="w-container">
-      <a href="index.html" class="brand w-nav-brand">Webflow Steps Demo</a>
+      <a href="/index.html" class="brand w-nav-brand">Webflow Steps Demo</a>
       <nav role="navigation" class="nav-menu w-nav-menu">
-        <a href="index.html" class="nav-link w-nav-link">Home</a>
-        <a href="about.html" class="nav-link w-nav-link">About</a>
-        <a href="services.html" class="nav-link w-nav-link">Services</a>
-        <a href="contact.html" class="nav-link w-nav-link w--current">Contact</a>
+        <a href="/index.html" class="nav-link w-nav-link">Home</a>
+        <a href="/about.html" class="nav-link w-nav-link">About</a>
+        <a href="/services.html" class="nav-link-block w-inline-block">Services</a>
+        <a href="/contact.html" aria-current="page" class="nav-link-block w-inline-block w--current">Contact</a>
       </nav>
-      <div class="menu-button w-nav-button" aria-label="menu" role="button">
+      <div class="menu-button w-nav-button">
         <div class="w-icon-nav-menu"></div>
       </div>
     </div>
@@ -32,19 +33,19 @@
   <div class="section contact-form">
     <div class="w-container">
       <div class="w-form">
-        <form id="contact-form" name="contact-form" data-name="Contact Form" method="get">
-          <label for="name">Name</label>
-          <input type="text" class="text-field w-input" maxlength="256" name="name" data-name="Name" placeholder="Jane Doe" id="name" required="" />
-          <label for="email">Email</label>
-          <input type="email" class="text-field w-input" maxlength="256" name="email" data-name="Email" placeholder="you@example.com" id="email" required="" />
-          <label for="message">Message</label>
-          <textarea class="text-field w-input" maxlength="5000" name="message" data-name="Message" placeholder="How can we help?" id="message" required=""></textarea>
-          <input type="submit" value="Send message" class="button w-button" data-wait="Please wait..." />
+        <form id="wf-form-Contact" name="wf-form-Contact" data-name="Contact Form" method="get" class="form" aria-label="Contact Form" data-wf-page-id="6a1f3c0b9d2e4a5b8c7d6e14" data-wf-element-id="contact-form" data-turnstile-sitekey="1x00000000000000000000AA">
+          <label for="Name">Name</label>
+          <input type="text" class="text-field w-input" maxlength="256" name="Name" data-name="Name" placeholder="Jane Doe" id="Name" required="" />
+          <label for="Email">Email</label>
+          <input type="email" class="text-field w-input" maxlength="256" name="Email" data-name="Email" placeholder="you@example.com" id="Email" required="" />
+          <label for="Message">Message</label>
+          <textarea class="text-field w-input" maxlength="5000" name="Message" data-name="Message" placeholder="How can we help?" id="Message" required=""></textarea>
+          <input type="submit" data-wait="Please wait..." class="button w-button" value="Send message" />
         </form>
-        <div class="w-form-done">
+        <div class="w-form-done" tabindex="-1" role="region" aria-label="Contact Form success">
           <div>Thank you! Your submission has been received!</div>
         </div>
-        <div class="w-form-fail">
+        <div class="w-form-fail" tabindex="-1" role="region" aria-label="Contact Form failure">
           <div>Oops! Something went wrong while submitting the form.</div>
         </div>
       </div>
@@ -54,6 +55,6 @@
   <div class="footer w-container">
     <p>&copy; 2026 Webflow Steps Demo</p>
   </div>
-  <script src="js/webflow-demo.js" defer></script>
+  <script src="/js/webflow-demo.js" defer></script>
 </body>
 </html>

@@ -14,23 +14,36 @@ Feature: Contact page
     And I should see "Contact us"
     And the "Contact" navigation link should be the current page
 
+  Scenario: The contact form is protected by a challenge
+    Given the URL "https://challenges.cloudflare.com/**" is blocked
+    And I am an anonymous user
+    When I am on the "/contact.html" page
+    Then the "Contact Form" form should be protected by a challenge
+    And the form submit button should be disabled
+
   Scenario: Submit the contact form successfully
-    Given I am an anonymous user
+    Given the webflow form endpoint accepts submissions
+    And the Turnstile challenge passes
+    And I am an anonymous user
     When I am on the "/contact.html" page
     And I fill in "Name" with "Jane Doe"
     And I fill in "Email" with "jane@example.com"
     And I fill in "Message" with "How can we help?"
-    And I submit the webflow form
+    And I submit the "Contact Form" form
     Then I should see the webflow form success message
+    And the form success message should contain "Your submission has been received"
 
   Scenario: Contact form submission shows an error state
-    Given I am an anonymous user
+    Given the webflow form endpoint rejects submissions
+    And the Turnstile challenge passes
+    And I am an anonymous user
     When I am on the "/contact.html" page
     And I fill in "Name" with "Jane Doe"
-    And I fill in "Email" with "fail@example.com"
+    And I fill in "Email" with "jane@example.com"
     And I fill in "Message" with "How can we help?"
-    And I submit the webflow form
+    And I submit the "Contact Form" form
     Then I should see the webflow form error message
+    And I should not see the webflow form success message
 
   @mobile
   Scenario: View the contact page on mobile

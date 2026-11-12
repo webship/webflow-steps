@@ -1,22 +1,23 @@
 <!DOCTYPE html>
-<html data-wf-page="home" data-wf-site="webflow-steps-demo">
+<html data-wf-domain="webflow-steps-demo.ddev.site" data-wf-page="6a1f3c0b9d2e4a5b8c7d6e11" data-wf-site="6a1f3c0b9d2e4a5b8c7d6e01" lang="en">
 <head>
   <meta charset="utf-8" />
   <title>Webflow Steps Demo &mdash; Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="css/demo.css" rel="stylesheet" type="text/css" />
+  <link href="/css/webflow-base.css" rel="stylesheet" type="text/css" />
+  <link href="/css/demo.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-  <div data-collapse="medium" data-animation="default" data-duration="400" class="navbar w-nav">
+  <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar w-nav">
     <div class="w-container">
-      <a href="index.html" class="brand w-nav-brand">Webflow Steps Demo</a>
+      <a href="/index.html" aria-current="page" class="brand w-nav-brand w--current">Webflow Steps Demo</a>
       <nav role="navigation" class="nav-menu w-nav-menu">
-        <a href="index.html" class="nav-link w-nav-link w--current">Home</a>
-        <a href="about.html" class="nav-link w-nav-link">About</a>
-        <a href="services.html" class="nav-link w-nav-link">Services</a>
-        <a href="contact.html" class="nav-link w-nav-link">Contact</a>
+        <a href="/index.html" aria-current="page" class="nav-link w-nav-link w--current">Home</a>
+        <a href="/about.html" class="nav-link w-nav-link">About</a>
+        <a href="/services.html" class="nav-link-block w-inline-block">Services</a>
+        <a href="/contact.html" class="nav-link-block w-inline-block">Contact</a>
       </nav>
-      <div class="menu-button w-nav-button" aria-label="menu" role="button">
+      <div class="menu-button w-nav-button">
         <div class="w-icon-nav-menu"></div>
       </div>
     </div>
@@ -25,15 +26,15 @@
   <div class="section hero">
     <div class="w-container">
       <h1>Build faster with our demo product</h1>
-      <p class="paragraph">A sample marketing site used to exercise webflow-steps against typical Webflow export markup.</p>
-      <a href="services.html" class="button w-button">Get Started</a>
+      <p class="paragraph">A sample marketing site used to exercise webflow-steps against the markup Webflow publishes.</p>
+      <a href="/services.html" class="button w-button">Get Started</a>
     </div>
   </div>
 
   <div class="section features">
     <div class="w-container">
       <h2>Features</h2>
-      <div class="w-dyn-list">
+      <div class="collection-list-wrapper w-dyn-list">
         <div role="list" class="collection-list w-dyn-items">
           <div role="listitem" class="collection-item w-dyn-item">
             <h3>Fast</h3>
@@ -47,6 +48,10 @@
             <h3>Simple</h3>
             <p>No config required.</p>
           </div>
+          <div role="listitem" class="collection-item w-dyn-item w-condition-invisible">
+            <h3>Draft feature</h3>
+            <p>Hidden by conditional visibility.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -56,14 +61,15 @@
     <div class="w-container">
       <h2>Stay in the loop</h2>
       <div class="w-form">
-        <form id="newsletter-form" name="newsletter-form" data-name="Newsletter Form" method="get">
+        <form id="wf-form-Newsletter" name="wf-form-Newsletter" data-name="Newsletter" method="get" class="form" aria-label="Newsletter" data-wf-page-id="6a1f3c0b9d2e4a5b8c7d6e11" data-wf-element-id="newsletter-form">
+          <label for="email">Email</label>
           <input type="email" class="text-field w-input" maxlength="256" name="email" data-name="Email" placeholder="you@example.com" id="email" required="" />
-          <input type="submit" value="Subscribe" class="button w-button" data-wait="Please wait..." />
+          <input type="submit" data-wait="Please wait..." class="button w-button" value="Subscribe" />
         </form>
-        <div class="w-form-done">
+        <div class="w-form-done" tabindex="-1" role="region" aria-label="Newsletter success">
           <div>Thank you! Your submission has been received!</div>
         </div>
-        <div class="w-form-fail">
+        <div class="w-form-fail" tabindex="-1" role="region" aria-label="Newsletter failure">
           <div>Oops! Something went wrong while submitting the form.</div>
         </div>
       </div>
@@ -73,6 +79,6 @@
   <div class="footer w-container">
     <p>&copy; 2026 Webflow Steps Demo</p>
   </div>
-  <script src="js/webflow-demo.js" defer></script>
+  <script src="/js/webflow-demo.js" defer></script>
 </body>
 </html>

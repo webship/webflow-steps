@@ -13,6 +13,8 @@ Feature: Home page
     And I should see the webflow navigation menu
     And I should see "Build faster with our demo product"
     And I should see 3 items in the "features" collection list
+    And the "features" collection list should contain "Reliable"
+    And the "features" collection list should not contain "Draft feature"
     And the "Home" navigation link should be the current page
     And the "About" navigation link should not be the current page
 
@@ -29,15 +31,20 @@ Feature: Home page
     And the "About" navigation link should be the current page
 
   Scenario: Subscribe to the newsletter successfully
-    Given I am an anonymous user
+    Given the webflow form endpoint accepts submissions
+    And I am an anonymous user
+    When I am on the homepage
+    And I fill in "email" with "visitor@example.com" by "name" attribute
+    And I submit the "Newsletter" form
+    Then I should see the webflow form success message
+    And the form success message should contain "Thank you"
+
+  Scenario: Newsletter submission shows an error state
+    Given the webflow form endpoint rejects submissions
+    And I am an anonymous user
     When I am on the homepage
     And I fill in "email" with "visitor@example.com" by "name" attribute
     And I submit the webflow form
-    Then I should see the webflow form success message
-
-  Scenario: Newsletter submission shows an error state
-    Given I am an anonymous user
-    When I am on the homepage
-    And I fill in "email" with "fail@example.com" by "name" attribute
-    And I submit the webflow form
     Then I should see the webflow form error message
+    And I should not see the webflow form success message
+    And the form error message should contain "Something went wrong"

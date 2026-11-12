@@ -11,7 +11,7 @@ const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
 const PACK_DIR = path.join(ROOT, 'tests/step-definitions');
-const FEATURE_DIR = path.join(ROOT, 'tests/features');
+const FEATURE_DIRS = ['tests/features', 'tests/live'].map((d) => path.join(ROOT, d)).filter((d) => fs.existsSync(d));
 const CORE_DIR = path.join(ROOT, 'node_modules/webship-js/tests/step-definitions');
 
 function cucumberExprToRegex(expr) {
@@ -86,8 +86,8 @@ for (const d of packDefs) {
 }
 
 let total = 0;
-for (const f of fs.readdirSync(FEATURE_DIR).filter((f) => f.endsWith('.feature'))) {
-  fs.readFileSync(path.join(FEATURE_DIR, f), 'utf8').split('\n').forEach((l, i) => {
+for (const dir of FEATURE_DIRS) for (const f of fs.readdirSync(dir).filter((f) => f.endsWith('.feature'))) {
+  fs.readFileSync(path.join(dir, f), 'utf8').split('\n').forEach((l, i) => {
     const m = l.match(/^\s*(Given|When|Then|And|But)\s+(.*)$/);
     if (!m) return;
     total++;
