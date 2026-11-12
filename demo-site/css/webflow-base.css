@@ -48,3 +48,56 @@ textarea.w-input { height: auto; }
   .w-nav[data-collapse=tiny] .w-nav-menu { display: none; }
   .w-nav[data-collapse=tiny] .w-nav-button { display: block; }
 }
+
+/* Tabs */
+.w-tabs { position: relative; }
+.w-tab-menu { position: relative; }
+.w-tab-link { vertical-align: top; text-align: left; cursor: pointer; color: #222; background-color: #ddd; padding: 9px 30px; text-decoration: none; display: inline-block; position: relative; }
+.w-tab-link.w--current { background-color: #c8c8c8; }
+.w-tab-link:focus { outline: 0; }
+.w-tab-content { display: block; position: relative; overflow: hidden; }
+.w-tab-pane { display: none; position: relative; }
+.w--tab-active { display: block; }
+
+/* Slider */
+.w-slider { text-align: center; clear: both; background: #ddd; height: 300px; position: relative; }
+.w-slider-mask { z-index: 1; white-space: nowrap; height: 100%; display: block; position: relative; left: 0; right: 0; overflow: hidden; }
+.w-slide { vertical-align: top; white-space: normal; text-align: left; width: 100%; height: 100%; display: inline-block; position: relative; }
+.w-slider-nav { z-index: 2; text-align: center; height: 40px; margin: auto; padding-top: 10px; position: absolute; inset: auto 0 0; }
+.w-slider-nav.w-round > div { border-radius: 100%; }
+.w-slider-dot { cursor: pointer; background-color: #fff6; width: 1em; height: 1em; margin: 0 3px .5em; display: inline-block; position: relative; }
+.w-slider-dot.w-active { background-color: #fff; }
+.w-slider-arrow-left, .w-slider-arrow-right { cursor: pointer; color: #fff; user-select: none; width: 80px; margin: auto; font-size: 40px; position: absolute; inset: 0; overflow: hidden; }
+.w-slider-arrow-left { z-index: 3; right: auto; }
+.w-slider-arrow-right { z-index: 4; left: auto; }
+.w-icon-slider-left, .w-icon-slider-right { width: 1em; height: 1em; margin: auto; inset: 0; position: absolute; }
+.w-icon-slider-left:before { content: "\2039"; }
+.w-icon-slider-right:before { content: "\203A"; }
+.w-slider-aria-label { clip: rect(0 0 0 0); border: 0; width: 1px; height: 1px; margin: -1px; padding: 0; position: absolute; overflow: hidden; }
+
+/* Dropdown */
+.w-dropdown { text-align: left; z-index: 900; margin-left: auto; margin-right: auto; display: inline-block; position: relative; }
+.w-dropdown-toggle, .w-dropdown-link { vertical-align: top; color: #222; text-align: left; white-space: nowrap; margin-left: auto; margin-right: auto; padding: 20px; text-decoration: none; position: relative; }
+.w-dropdown-toggle { user-select: none; cursor: pointer; padding-right: 40px; display: inline-block; }
+.w-dropdown-toggle:focus { outline: 0; }
+.w-icon-dropdown-toggle { width: 1em; height: 1em; margin: auto 20px auto auto; position: absolute; top: 0; bottom: 0; right: 0; }
+.w-icon-dropdown-toggle:before { content: "\25BE"; }
+.w-dropdown-list { background: #ddd; min-width: 100%; display: none; position: absolute; }
+.w-dropdown-list.w--open { display: block; }
+.w-dropdown-link { color: #222; padding: 10px 20px; display: block; }
+
+/* Lightbox */
+.w-lightbox-backdrop { cursor: auto; color: #fff; text-align: center; z-index: 2000; background: #000000e6; position: fixed; inset: 0; height: 100%; overflow: auto; }
+.w-lightbox-content { height: 100vh; position: relative; overflow: hidden; }
+.w-lightbox-view { width: 100vw; height: 100vh; position: absolute; }
+.w-lightbox-view:before { content: ""; height: 100vh; vertical-align: middle; display: inline-block; }
+.w-lightbox-frame { vertical-align: middle; display: inline-block; }
+.w-lightbox-figure { margin: 0; position: relative; }
+.w-lightbox-image { float: none; max-width: 100vw; max-height: 100vh; display: block; }
+.w-lightbox-control { cursor: pointer; width: 4em; position: absolute; top: 0; }
+.w-lightbox-close { height: 2.6em; right: 0; }
+.w-lightbox-close:before { content: "\00D7"; font-size: 2em; }
+.w-lightbox-left { display: none; bottom: 0; left: 0; }
+.w-lightbox-right { display: none; bottom: 0; right: 0; }
+.w-lightbox-hide { display: none; }
+.w-lightbox-noscroll { overflow: hidden; }

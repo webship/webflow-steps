@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html data-wf-domain="webflow-steps-demo.ddev.site" data-wf-page="6a1f3c0b9d2e4a5b8c7d6e15" data-wf-site="6a1f3c0b9d2e4a5b8c7d6e01" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Webflow Steps Demo &mdash; Components</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="/css/webflow-base.css" rel="stylesheet" type="text/css" />
+  <link href="/css/demo.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+  <div data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar w-nav">
+    <div class="w-container">
+      <a href="/index.html" class="brand w-nav-brand">Webflow Steps Demo</a>
+      <nav role="navigation" class="nav-menu w-nav-menu">
+        <a href="/index.html" class="nav-link w-nav-link">Home</a>
+        <a href="/about.html" class="nav-link w-nav-link">About</a>
+        <a href="/services.html" class="nav-link-block w-inline-block">Services</a>
+        <a href="/contact.html" class="nav-link-block w-inline-block">Contact</a>
+      </nav>
+      <div class="menu-button w-nav-button">
+        <div class="w-icon-nav-menu"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section hero">
+    <div class="w-container">
+      <h1>Components</h1>
+      <p class="paragraph">Tabs, a slider, dropdowns and a lightbox, as Webflow publishes them.</p>
+    </div>
+  </div>
+
+  <div class="section pricing-tabs">
+    <div class="w-container">
+      <h2>Pricing</h2>
+      <div data-current="Tab 1" data-easing="ease" data-duration-in="300" data-duration-out="100" class="tabs w-tabs">
+        <div class="tabs-menu w-tab-menu">
+          <a data-w-tab="Tab 1" class="tab-link w-inline-block w-tab-link w--current"><div>Monthly</div></a>
+          <a data-w-tab="Tab 2" class="tab-link w-inline-block w-tab-link"><div>Yearly</div></a>
+        </div>
+        <div class="w-tab-content">
+          <div data-w-tab="Tab 1" class="w-tab-pane w--tab-active"><p>Pay month by month: $19.</p></div>
+          <div data-w-tab="Tab 2" class="w-tab-pane"><p>Pay once a year: $190.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section reviews">
+    <div class="w-container">
+      <h2>Reviews</h2>
+      <div data-delay="4000" data-animation="slide" class="reviews-slider w-slider" data-autoplay="false" data-easing="ease" data-hide-arrows="false" data-disable-swipe="false" data-autoplay-limit="0" data-nav-spacing="3" data-duration="500" data-infinite="true">
+        <div class="w-slider-mask">
+          <div class="w-slide"><div class="slide-content"><h3>Great tool</h3></div></div>
+          <div class="w-slide"><div class="slide-content"><h3>Saved us hours</h3></div></div>
+          <div class="w-slide"><div class="slide-content"><h3>Easy to trust</h3></div></div>
+        </div>
+        <div class="w-slider-arrow-left"><div class="w-icon-slider-left"></div></div>
+        <div class="w-slider-arrow-right"><div class="w-icon-slider-right"></div></div>
+        <div class="w-slider-nav w-round"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section menus">
+    <div class="w-container">
+      <h2>Dropdowns</h2>
+      <div data-hover="false" data-delay="0" class="products-dropdown w-dropdown">
+        <div class="dropdown-toggle w-dropdown-toggle"><div class="w-icon-dropdown-toggle"></div><div>Products</div></div>
+        <nav class="dropdown-list w-dropdown-list">
+          <a href="/services.html" class="w-dropdown-link">Pricing</a>
+          <a href="/about.html" class="w-dropdown-link">Features</a>
+        </nav>
+      </div>
+      <div data-hover="true" data-delay="0" class="resources-dropdown w-dropdown">
+        <div class="dropdown-toggle w-dropdown-toggle"><div class="w-icon-dropdown-toggle"></div><div>Resources</div></div>
+        <nav class="dropdown-list w-dropdown-list">
+          <a href="/contact.html" class="w-dropdown-link">Support</a>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <div class="section media">
+    <div class="w-container">
+      <h2>Media</h2>
+      <a href="#" class="about-light-box w-inline-block w-lightbox">
+        <img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='180'%3E%3Crect width='320' height='180' fill='%23146ef5'/%3E%3C/svg%3E" alt="Product overview" width="320" height="180" />
+        <script type="application/json" class="w-json">{"items":[{"url":"data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='180'%3E%3Crect width='320' height='180' fill='%23146ef5'/%3E%3C/svg%3E","type":"image"}],"group":""}</script>
+      </a>
+    </div>
+  </div>
+
+  <div class="footer w-container">
+    <p>&copy; 2026 Webflow Steps Demo</p>
+  </div>
+  <script src="/js/webflow-demo.js" defer></script>
+</body>
+</html>

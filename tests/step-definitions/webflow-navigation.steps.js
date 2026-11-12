@@ -56,7 +56,9 @@ function navLinkState(text) {
   const norm = (s) => (s || '').replace(/\s+/g, ' ').trim();
   const links = [...document.querySelectorAll('.w-nav a[href]')];
   const named = (a) => norm(a.textContent) || norm(a.getAttribute('aria-label'));
-  const matches = links.filter((a) => norm(a.textContent) === text || norm(a.getAttribute('aria-label')) === text);
+  // A template can repeat the text of a link for a hover effect ("HomeHome").
+  const says = (a) => [text, text + text, text + ' ' + text].includes(norm(a.textContent)) || norm(a.getAttribute('aria-label')) === text;
+  const matches = links.filter(says);
   return {
     found: matches.length,
     current: matches.some((a) => a.getAttribute('aria-current') === 'page' || a.classList.contains('w--current')),
@@ -138,9 +140,9 @@ Then(/^the mobile( navigation)? menu should( not)* be (open|closed)$/, async fun
  * Assert a link of the Navbar is, or is not, marked as the current page:
  * `aria-current="page"` in the published HTML, or the `w--current` class that
  * Webflow's runtime adds to a link whose address is the page's. The link is
- * found by its exact text (or its `aria-label`, for a logo link) among all the
- * links of the Navbar, whatever class they carry, and the menu need not be
- * open.
+ * found by its exact text (or its `aria-label`, for a logo link; a text a
+ * template repeats for a hover effect counts) among all the links of the
+ * Navbar, whatever class they carry, and the menu need not be open.
  *
  * Example #1: Then the "Home" navigation link should be the current page
  * Example #2: Then the "About" navigation link should not be the current page
@@ -179,7 +181,7 @@ Then(/^the "([^"]*)" navigation link should( not)* be the current page$/, async 
  *
  */
 Then(/^the (?:webflow )?navigation( menu)? should( not)* list "([^"]*)"$/, async function (menuCase, notCase, text) {
-  const link = this.page.locator(SELECTORS.links).filter({ hasText: new RegExp(`^\\s*${escapeRe(text)}\\s*$`) }).first();
+  const link = this.page.locator(SELECTORS.links).filter({ hasText: new RegExp(`^\\s*(?:${escapeRe(text)}\\s*){1,2}$`) }).first();
   try {
     await link.waitFor({ state: notCase ? 'detached' : 'attached', timeout: budget(this) });
   } catch {
