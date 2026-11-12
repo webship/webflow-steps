@@ -5,7 +5,8 @@
 // `tests/live/auvra.feature` runs with LAUNCH_URL=https://auvra.webflow.io.
 // `npm run test:live` runs them all; `npm run test:live -- auvra` runs one.
 // They are outside the default run because they need the network and the
-// sites belong to their authors.
+// sites belong to their authors. A page that is slow to answer is retried
+// twice.
 
 const fs = require('fs');
 const path = require('path');
@@ -29,7 +30,7 @@ for (const file of files) {
   const site = path.basename(file, '.feature');
   const url = `https://${site}.webflow.io`;
   console.log(`\n== ${file} against ${url}`);
-  const result = spawnSync('npx', ['cucumber-js', '--config', 'cucumber.js'], {
+  const result = spawnSync('npx', ['cucumber-js', '--config', 'cucumber.js', '--retry', '2'], {
     cwd: ROOT,
     stdio: 'inherit',
     env: { ...process.env, LAUNCH_URL: url, FEATURES: path.join('tests/live', file), CUCUMBER_TAGS: '@live' },

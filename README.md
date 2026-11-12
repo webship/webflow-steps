@@ -11,6 +11,10 @@ This repository is also a working test project. Its `demo-site/` is a small Webf
 - **Navigation.** The Navbar is visible; the mobile menu opens, closes and reports its state; a Navbar link is the current page; the Navbar lists a link.
 - **CMS collection lists.** The number of items a list renders, at least a number, an empty list, Webflow's "No items found." message, a text in an item. Items hidden by conditional visibility are not counted.
 - **Forms.** Submit a form (the first, or one by its name); its success and error messages, and their text; a form is protected by a challenge; the submit button is disabled. Two test doubles let a scenario drive both states of any Webflow form without submitting anything: the form endpoint accepts or rejects submissions, and the Cloudflare Turnstile challenge passes.
+- **Tabs.** Select a tab by its text, a tab is selected, its content is shown.
+- **Slider.** Go to the next or previous slide, which slide is shown, how many slides there are.
+- **Dropdown.** Open or close a dropdown by its toggle text, it is open, it lists a link.
+- **Lightbox.** Open and close it, it is open.
 - **Site identity.** The page is published by Webflow; the page belongs to the Webflow site with a given id.
 
 Every assertion takes `should` or `should not`, every action takes `I`, `we` or no pronoun, the product word is optional (`the webflow navigation` and `the navigation` both match), and every failure is a friendly message with a hint, not a stack trace. Each assertion waits for its condition for the `minWaitTime.page` budget (at least ten seconds), because Webflow animates its menus and answers its forms asynchronously.
@@ -83,6 +87,17 @@ webship-js writes an HTML report to `tests/reports/cucumber_report.html` after e
 | `the (webflow )form submit button should( not) be disabled` | Then |
 | `the (webflow )form endpoint accepts\|rejects submissions` | Given |
 | `the (webflow form )(Turnstile )challenge passes` | Given |
+| `I select the "<text>" tab` | When |
+| `the "<text>" tab should( not) be selected` | Then |
+| `the "<text>" tab content should( not) be visible` | Then |
+| `I go to the next\|previous slide( of the "<class>" slider)` | When |
+| `the ("<class>" )slider should show slide <n> of <m>` | Then |
+| `the ("<class>" )slider should have <n> slide(s)` | Then |
+| `I open\|close the "<text>" dropdown` | When |
+| `the "<text>" dropdown should( not) be open\|closed` | Then |
+| `the "<text>" dropdown should( not) list "<text>"` | Then |
+| `I open the ("<class>" )lightbox` / `I close the lightbox` | When |
+| `the lightbox should( not) be open\|closed` | Then |
 | `this( page) should( not) be a webflow page` | Then |
 | `this( page) should be the webflow site "<id>"` | Then |
 
@@ -99,6 +114,10 @@ The steps rely on what Webflow's published stylesheet and script do, not on the 
 | Current page | A link whose address is the page's has `aria-current="page"` and `w--current`. This holds for every link, whatever its class: most templates build the menu from link blocks (`.w-inline-block`), not `.w-nav-link`. |
 | Collection list | `.w-dyn-list` > `.w-dyn-items` (`role="list"`) > `.w-dyn-item` (`role="listitem"`). An empty collection renders `.w-dyn-empty` ("No items found."). `.w-condition-invisible`, `.w-dyn-hide` and `.w-dyn-bind-empty` are `display: none !important`. |
 | Forms | `.w-form` > `form` + `.w-form-done` + `.w-form-fail` (each `role="region"`). The runtime posts to `https://webflow.com/api/v1/form/<data-wf-site>`; the answer `{"code": 200}` hides the form and shows `.w-form-done`, anything else shows `.w-form-fail`. A form with `data-turnstile-sitekey` keeps its submit button disabled until the Turnstile challenge passes. |
+| Tabs | `.w-tabs` > `.w-tab-menu` > `.w-tab-link` (`role="tab"`, `data-w-tab`, `aria-selected`, `w--current` when selected) and `.w-tab-content` > `.w-tab-pane` (`role="tabpanel"`, the same `data-w-tab`, `w--tab-active` when shown). |
+| Slider | `.w-slider` (`role="region"`) > `.w-slider-mask` > `.w-slide`; the shown slide has no `aria-hidden="true"`. Arrows `.w-slider-arrow-left` and `-right`, dots `.w-slider-dot` (`w-active`), live region `.w-slider-aria-label` ("Slide 2 of 3."). A slider with `data-autoplay="true"` moves on by itself, so a slide can change between two steps. |
+| Dropdown | `.w-dropdown` > `.w-dropdown-toggle` (`aria-expanded`, `w--open`) + `.w-dropdown-list` (`w--open`). `data-hover="true"` opens it on hover. |
+| Lightbox | `a.w-lightbox` opens `.w-lightbox-backdrop` on the body (`w-lightbox-hide` when closed) with `.w-lightbox-close`. |
 | Page | `<html data-wf-page data-wf-site data-wf-domain>` on every published page. |
 
 A collection list is named by a class: of its wrapper, of its `.w-dyn-items` element, of its items, or of the section around it, in that order. The name in the scenario is the name the designer sees in the Style panel.
@@ -123,7 +142,7 @@ Use them on a staging copy of the site or on a read-only check. They do not bypa
 
 ## Run the steps against a public Webflow site
 
-`tests/live/` holds read-only checks against public Webflow template sites, to prove the steps read what a real Webflow runtime produces, and not only what `demo-site/` serves. The file name is the site: `tests/live/auvra.feature` runs against `https://auvra.webflow.io`.
+`tests/live/` holds read-only checks against public Webflow template sites (`auvra`, `koorse`, `clientflow`), to prove the steps read what a real Webflow runtime produces, and not only what `demo-site/` serves. The file name is the site: `tests/live/auvra.feature` runs against `https://auvra.webflow.io`.
 
 ```bash
 npm run test:live              # every file in tests/live
@@ -136,10 +155,10 @@ They are outside the default run: they need the network, and the sites belong to
 
 ```
 demo-site/                      The demo site (a DDEV project) used as the test target
-  index.html, about.html, services.html, contact.html
+  index.html, about.html, services.html, contact.html, components.html
   css/webflow-base.css          The rules of Webflow's published stylesheet that the pages use
   css/demo.css                  The look of the pages
-  js/webflow-demo.js            A small stand-in for Webflow's script: current link, Navbar, forms
+  js/webflow-demo.js            A small stand-in for Webflow's script: current link, Navbar, tabs, slider, dropdown, lightbox, forms
 
 tests/
   live/                         Read-only checks against public Webflow template sites
@@ -148,6 +167,7 @@ tests/
     webflow-navigation.steps.js
     webflow-cms.steps.js
     webflow-forms.steps.js
+    webflow-components.steps.js
     webflow-site.steps.js
   features/                     The scenarios against demo-site/, one file per area or page
   selectors/                    Named selectors (webship-js)

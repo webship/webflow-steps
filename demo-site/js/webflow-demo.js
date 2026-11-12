@@ -9,6 +9,14 @@
 //   `data-nav-menu-open` on the menu (which moves into a `.w-nav-overlay`) and
 //   `w--nav-link-open` on the links, sizes the overlay to the viewport, and
 //   sets `aria-expanded` when the animation ends; closing undoes it;
+// - Tabs: the links get `role`, `aria-selected` and `tabindex`, the panes `role`
+//   and `aria-labelledby`; a click moves `w--current` and `w--tab-active`;
+// - Slider: `role`, arrows and dots with their labels, `aria-hidden` on the
+//   slides that are not shown, and the live region "Slide 2 of 3.";
+// - Dropdown: `aria-expanded` on the toggle, `w--open` on the toggle and the
+//   list; a dropdown with `data-hover="true"` also opens on hover;
+// - Lightbox: a click on `a.w-lightbox` adds `.w-lightbox-backdrop` to the
+//   body; closing adds `w-lightbox-hide` to it;
 // - forms: a form with `data-turnstile-sitekey` keeps its submit button
 //   disabled until Cloudflare's Turnstile script hands over a token; the
 //   submit posts to the form endpoint, and `{"code": 200}` hides the form and
@@ -122,8 +130,146 @@
     });
   }
 
+  function setUpTabs(tabs, index) {
+    var links = tabs.querySelectorAll('.w-tab-link');
+    var panes = tabs.querySelectorAll('.w-tab-pane');
+    var menu = tabs.querySelector('.w-tab-menu');
+    menu.setAttribute('role', 'tablist');
+    function select(link) {
+      Array.prototype.forEach.call(links, function (other, i) {
+        var on = other === link;
+        other.classList.toggle('w--current', on);
+        other.setAttribute('aria-selected', String(on));
+        if (on) other.removeAttribute('tabindex'); else other.setAttribute('tabindex', '-1');
+        panes[i].classList.toggle('w--tab-active', on);
+      });
+    }
+    Array.prototype.forEach.call(links, function (link, i) {
+      link.id = 'w-tabs-' + index + '-data-w-tab-' + i;
+      panes[i].id = 'w-tabs-' + index + '-data-w-pane-' + i;
+      link.setAttribute('role', 'tab');
+      link.setAttribute('href', '#' + panes[i].id);
+      link.setAttribute('aria-controls', panes[i].id);
+      panes[i].setAttribute('role', 'tabpanel');
+      panes[i].setAttribute('aria-labelledby', link.id);
+      link.addEventListener('click', function (event) { event.preventDefault(); select(link); });
+    });
+    select(tabs.querySelector('.w-tab-link.w--current') || links[0]);
+  }
+
+  function setUpSlider(slider, index) {
+    var mask = slider.querySelector('.w-slider-mask');
+    var slides = mask.querySelectorAll('.w-slide');
+    var nav = slider.querySelector('.w-slider-nav');
+    var label = document.createElement('div');
+    var left = slider.querySelector('.w-slider-arrow-left');
+    var right = slider.querySelector('.w-slider-arrow-right');
+    var dots = [];
+    var current = 0;
+    mask.id = 'w-slider-mask-' + index;
+    slider.setAttribute('role', 'region');
+    slider.setAttribute('aria-label', 'carousel');
+    label.className = 'w-slider-aria-label';
+    label.setAttribute('aria-live', 'off');
+    label.setAttribute('aria-atomic', 'true');
+    label.setAttribute('data-wf-ignore', '');
+    slider.appendChild(label);
+    [[left, 'previous slide'], [right, 'next slide']].forEach(function (pair) {
+      pair[0].setAttribute('role', 'button');
+      pair[0].setAttribute('tabindex', '0');
+      pair[0].setAttribute('aria-controls', mask.id);
+      pair[0].setAttribute('aria-label', pair[1]);
+    });
+    Array.prototype.forEach.call(slides, function (slide, i) {
+      var dot = document.createElement('div');
+      dot.className = 'w-slider-dot';
+      dot.setAttribute('data-wf-ignore', '');
+      dot.setAttribute('role', 'button');
+      dot.setAttribute('aria-label', 'Show slide ' + (i + 1) + ' of ' + slides.length);
+      dot.textContent = String(i + 1);
+      dot.addEventListener('click', function () { show(i); });
+      nav.appendChild(dot);
+      dots.push(dot);
+    });
+    function show(i) {
+      current = (i + slides.length) % slides.length;
+      Array.prototype.forEach.call(slides, function (slide, n) {
+        slide.style.display = n === current ? 'inline-block' : 'none';
+        if (n === current) slide.removeAttribute('aria-hidden'); else slide.setAttribute('aria-hidden', 'true');
+      });
+      dots.forEach(function (dot, n) {
+        dot.classList.toggle('w-active', n === current);
+        dot.setAttribute('aria-pressed', String(n === current));
+        dot.setAttribute('tabindex', n === current ? '0' : '-1');
+      });
+      label.textContent = 'Slide ' + (current + 1) + ' of ' + slides.length + '.';
+    }
+    left.addEventListener('click', function () { show(current - 1); });
+    right.addEventListener('click', function () { show(current + 1); });
+    show(0);
+  }
+
+  function setUpDropdown(dropdown, index) {
+    var toggle = dropdown.querySelector(':scope > .w-dropdown-toggle');
+    var list = dropdown.querySelector(':scope > .w-dropdown-list');
+    toggle.id = 'w-dropdown-toggle-' + index;
+    list.id = 'w-dropdown-list-' + index;
+    toggle.setAttribute('role', 'button');
+    toggle.setAttribute('tabindex', '0');
+    toggle.setAttribute('aria-controls', list.id);
+    toggle.setAttribute('aria-haspopup', 'menu');
+    toggle.setAttribute('aria-expanded', 'false');
+    list.setAttribute('aria-labelledby', toggle.id);
+    function set(open) {
+      toggle.classList.toggle('w--open', open);
+      list.classList.toggle('w--open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+      dropdown.style.zIndex = open ? '901' : '';
+    }
+    toggle.addEventListener('click', function () { set(!list.classList.contains('w--open')); });
+    toggle.addEventListener('keydown', function (event) {
+      if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); set(!list.classList.contains('w--open')); }
+    });
+    if (dropdown.getAttribute('data-hover') === 'true') {
+      dropdown.addEventListener('mouseenter', function () { set(true); });
+      dropdown.addEventListener('mouseleave', function () { set(false); });
+    }
+  }
+
+  function setUpLightbox(link) {
+    var data = JSON.parse(link.querySelector('script.w-json').textContent);
+    var backdrop = null;
+    link.setAttribute('aria-label', 'open lightbox');
+    link.setAttribute('aria-haspopup', 'dialog');
+    function close() {
+      backdrop.classList.add('w-lightbox-hide');
+      document.documentElement.classList.remove('w-lightbox-noscroll');
+    }
+    link.addEventListener('click', function (event) {
+      event.preventDefault();
+      if (!backdrop) {
+        backdrop = document.createElement('div');
+        backdrop.className = 'w-lightbox-backdrop';
+        backdrop.innerHTML = '<div class="w-lightbox-container"><div class="w-lightbox-content"><div class="w-lightbox-view"><div class="w-lightbox-frame"><figure class="w-lightbox-figure"><img class="w-lightbox-img w-lightbox-image" alt="" src="' + data.items[0].url + '"></figure></div></div>' +
+          '<div class="w-lightbox-control w-lightbox-left"></div><div class="w-lightbox-control w-lightbox-right"></div>' +
+          '<div class="w-lightbox-control w-lightbox-close" role="button" aria-label="close lightbox" tabindex="0"></div></div></div>';
+        backdrop.querySelector('.w-lightbox-close').addEventListener('click', close);
+        document.body.appendChild(backdrop);
+      }
+      backdrop.classList.remove('w-lightbox-hide');
+      document.documentElement.classList.add('w-lightbox-noscroll');
+    });
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape' && backdrop && !backdrop.classList.contains('w-lightbox-hide')) close();
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     markCurrentLinks();
+    Array.prototype.forEach.call(document.querySelectorAll('.w-tabs'), setUpTabs);
+    Array.prototype.forEach.call(document.querySelectorAll('.w-slider'), setUpSlider);
+    Array.prototype.forEach.call(document.querySelectorAll('.w-dropdown'), setUpDropdown);
+    Array.prototype.forEach.call(document.querySelectorAll('.w-lightbox'), setUpLightbox);
     Array.prototype.forEach.call(document.querySelectorAll('.w-nav'), setUpNavbar);
     Array.prototype.forEach.call(document.querySelectorAll('.w-form form'), setUpForm);
   });
