@@ -6,9 +6,10 @@ Feature: The Clientflow template site on webflow.io
   I want the steps to work on a dropdown used as an accordion
   So that a team can rely on them for its own Webflow site
 
-  Scenario: A dropdown opens and closes
+  Scenario: A dropdown opens and closes, on a site without the badge
     When I am on "/"
-    Then the "What is Clientflow?" dropdown should be closed
+    Then I should not see the Webflow badge
+    And the "What is Clientflow?" dropdown should be closed
     When I open the "What is Clientflow?" dropdown
     Then the "What is Clientflow?" dropdown should be open
     When I close the "What is Clientflow?" dropdown

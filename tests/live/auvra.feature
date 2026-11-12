@@ -18,6 +18,7 @@ Feature: The Auvra template site on webflow.io
     When I am on "/"
     Then this should be a webflow page
     And this should be the webflow site "6a282ca3f318327eefc29a02"
+    And I should see the Webflow badge
     And I should see the webflow navigation
     And the navigation should list "Contact Us"
     And the "Home" navigation link should be the current page
