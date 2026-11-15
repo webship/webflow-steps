@@ -14,14 +14,14 @@ const { budget, assertPresence, waitForCondition } = require('./webflow-helpers'
  * Assert that the current page is, or is not, a page published by Webflow: its
  * `<html>` tag carries the `data-wf-page` and `data-wf-site` attributes.
  *
- * Example #1: Then this should be a webflow page
- * Example #2: Then this page should be a webflow page
- * Example #3: And this should not be a webflow page
- * Example #4: Then this page should not be a webflow page
- * Example #5: And this page should be a webflow page
+ * Example #1: Then this should be a published page
+ * Example #2: Then this page should be a published page
+ * Example #3: And this should not be a published page
+ * Example #4: Then this page should not be a published page
+ * Example #5: And this page should be a published page
  *
  */
-Then(/^this( page)? should( not)* be a webflow page$/, async function (pageCase, notCase) {
+Then(/^this( page)? should( not)* be a published page$/, async function (pageCase, notCase) {
   await waitForCondition(this, (want) => {
     const html = document.documentElement;
     return (html.hasAttribute('data-wf-page') && html.hasAttribute('data-wf-site')) === want;
@@ -38,14 +38,14 @@ Then(/^this( page)? should( not)* be a webflow page$/, async function (pageCase,
  * It proves a scenario runs against the site it was written for (production,
  * staging or a copy). The id is in Webflow's Site settings, under General.
  *
- * Example #1: Then this should be the webflow site "6a282ca3f318327eefc29a02"
- * Example #2: Then this page should be the webflow site "6a906778b7eda4ebf3917813"
- * Example #3: And this should be the webflow site "69d62bbcbf9a56f0284fdb53"
- * Example #4: Then this page should be the webflow site "webflow-steps-demo"
- * Example #5: And this should be the webflow site "6a083ff5f8d83bda5c5b3e15"
+ * Example #1: Then this should be the site "6a282ca3f318327eefc29a02"
+ * Example #2: Then this page should be the site "6a906778b7eda4ebf3917813"
+ * Example #3: And this should be the site "69d62bbcbf9a56f0284fdb53"
+ * Example #4: Then this page should be the site "webflow-steps-demo"
+ * Example #5: And this should be the site "6a083ff5f8d83bda5c5b3e15"
  *
  */
-Then(/^this( page)? should be the webflow site "([^"]*)"$/, async function (pageCase, siteId) {
+Then(/^this( page)? should be the site "([^"]*)"$/, async function (pageCase, siteId) {
   await waitForCondition(this, (want) => document.documentElement.getAttribute('data-wf-site') === want, siteId, async () => {
     const actual = await this.page.evaluate(() => document.documentElement.getAttribute('data-wf-site'));
     return friendly({
@@ -62,14 +62,14 @@ Then(/^this( page)? should be the webflow site "([^"]*)"$/, async function (page
  * negative form on a production site. The badge is added by Webflow's script
  * when the page has loaded, so the negative form waits a moment for it.
  *
- * Example #1: Then I should see the Webflow badge
- * Example #2: Then I should not see the Webflow badge
- * Example #3: And we should not see the Webflow badge
- * Example #4: Then we should see the Webflow badge
- * Example #5: And I should not see the Webflow badge
+ * Example #1: Then I should see the hosting badge
+ * Example #2: Then I should not see the hosting badge
+ * Example #3: And we should not see the hosting badge
+ * Example #4: Then we should see the hosting badge
+ * Example #5: And I should not see the hosting badge
  *
  */
-Then(/^(I |we )*should( not)* see the Webflow badge$/, async function (pronounCase, notCase) {
+Then(/^(I |we )*should( not)* see the hosting badge$/, async function (pronounCase, notCase) {
   if (notCase) await smartSettle(this.page, 1000);
   await assertPresence(this.page.locator('a.w-webflow-badge'), notCase, {
     label: 'the "Made in Webflow" badge (a.w-webflow-badge)',

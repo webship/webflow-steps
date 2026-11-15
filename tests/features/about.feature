@@ -9,8 +9,8 @@ Feature: About page
     Given I am an anonymous user
     And I set the viewport to the "desktop" breakpoint
     When I am on the "/about.html" page
-    Then this should be a webflow page
-    And I should see the webflow navigation menu
+    Then this should be a published page
+    And I should see the navigation menu
     And I should see "About us"
     And I should see 2 items in the "team" collection list
     And I should see at least 1 item in the "team" collection list

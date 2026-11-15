@@ -19,7 +19,7 @@ This repository is also a working test project. Its `demo-site/` is a small Webf
 - **Background video.** The video plays or is paused; a visitor can pause and play it with its control (WCAG 2.2.2 "Pause, Stop, Hide").
 - **Site identity.** The page is published by Webflow; the page belongs to the Webflow site with a given id; the "Made in Webflow" badge is shown or not.
 
-Every assertion takes `should` or `should not`, every action takes `I`, `we` or no pronoun, the word `webflow` is optional where it names a Webflow element (`the webflow navigation` and `the navigation` both match), and every failure is a friendly message with a hint, not a stack trace. Each assertion waits for its condition for the `minWaitTime.page` budget (at least ten seconds), because Webflow animates its menus and answers its forms asynchronously.
+Every assertion takes `should` or `should not`, every action takes `I`, `we` or no pronoun, no step phrase names the platform, and every failure is a friendly message with a hint, not a stack trace. Each assertion waits for its condition for the `minWaitTime.page` budget (at least ten seconds), because Webflow animates its menus and answers its forms asynchronously.
 
 The steps that add to a cart or take an order change a store's data: run them against a store in test mode. The steps that only look at the cart and the checkout page are safe on any store.
 
@@ -74,8 +74,8 @@ webship-js writes an HTML report to `tests/reports/cucumber_report.html` after e
 
 | Step | Type |
 | --- | --- |
-| `I should( not) see the (webflow )navigation( menu)` | Then |
-| `the (webflow )navigation( menu) should( not) list "<text>"` | Then |
+| `I should( not) see the navigation( menu)` | Then |
+| `the navigation( menu) should( not) list "<text>"` | Then |
 | `I open\|close the mobile( navigation) menu` | When |
 | `the mobile( navigation) menu should( not) be open\|closed` | Then |
 | `the "<text>" navigation link should( not) be the current page` | Then |
@@ -84,13 +84,13 @@ webship-js writes an HTML report to `tests/reports/cucumber_report.html` after e
 | `the "<name>" collection list should( not) be empty` | Then |
 | `the "<name>" collection list should( not) show the empty message\|state` | Then |
 | `the "<name>" collection list should( not) contain "<text>"` | Then |
-| `I submit the ("<name>" )(webflow )form` | When |
-| `I should( not) see the (webflow )form success\|error message\|state` | Then |
-| `the (webflow )form success\|error message should( not) contain "<text>"` | Then |
-| `the ("<name>" )(webflow )form should( not) be protected by a challenge` | Then |
-| `the (webflow )form submit button should( not) be disabled` | Then |
-| `the (webflow )form endpoint accepts\|rejects submissions` | Given |
-| `the (webflow form )(Turnstile )challenge passes` | Given |
+| `I submit the ("<name>" )form` | When |
+| `I should( not) see the form success\|error message\|state` | Then |
+| `the form success\|error message should( not) contain "<text>"` | Then |
+| `the ("<name>" )form should( not) be protected by a challenge` | Then |
+| `the form submit button should( not) be disabled` | Then |
+| `the form endpoint accepts\|rejects submissions` | Given |
+| `the (form )(Turnstile )challenge passes` | Given |
 | `I select the "<text>" tab` | When |
 | `the "<text>" tab should( not) be selected` | Then |
 | `the "<text>" tab content should( not) be visible` | Then |
@@ -117,9 +117,9 @@ webship-js writes an HTML report to `tests/reports/cucumber_report.html` after e
 | `the background video should( not) be playing` | Then |
 | `the background video should( not) have a pause control` | Then |
 | `I pause\|play the background video` | When |
-| `I should( not) see the Webflow badge` | Then |
-| `this( page) should( not) be a webflow page` | Then |
-| `this( page) should be the webflow site "<id>"` | Then |
+| `I should( not) see the hosting badge` | Then |
+| `this( page) should( not) be a published page` | Then |
+| `this( page) should be the site "<id>"` | Then |
 
 Every step's regex and five Gherkin examples are in the JSDoc block above it in `tests/step-definitions/`. `npm run test:examples` checks that each example matches its own step, and no webship-js step, and that every feature step is defined exactly once. CI runs it before the suite.
 
@@ -175,13 +175,13 @@ The real form endpoint belongs to Webflow, and a Turnstile-protected form cannot
 
 ```gherkin
 Scenario: The contact form thanks the visitor
-  Given the webflow form endpoint accepts submissions
+  Given the form endpoint accepts submissions
   And the Turnstile challenge passes
   When I am on "/contact"
   And I fill in "Name" with "Jane Doe"
   And I fill in "Email" with "jane@example.com"
   And I submit the "Contact Form" form
-  Then I should see the webflow form success message
+  Then I should see the form success message
   And the form success message should contain "Thank you"
 ```
 

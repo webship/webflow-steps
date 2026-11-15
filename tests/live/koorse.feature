@@ -9,7 +9,7 @@ Feature: The Koorse template site on webflow.io
   Scenario: The home page: Navbar of link blocks, slider and lightbox
     Given I set the viewport to the "desktop" breakpoint
     When I am on "/"
-    Then this should be a webflow page
+    Then this should be a published page
     And the navigation should list "Course"
     And the "Home" navigation link should be the current page
     And the "Course" navigation link should not be the current page

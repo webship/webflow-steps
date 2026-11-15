@@ -63,14 +63,14 @@ async function answerFormEndpoint(world, status, body) {
  * working form: the runtime hides the form and shows its success message.
  * Nothing leaves the browser. Give it before opening the page.
  *
- * Example #1: Given the webflow form endpoint accepts submissions
+ * Example #1: Given the form endpoint accepts submissions
  * Example #2: Given the form endpoint accepts submissions
- * Example #3: Given the webflow forms endpoint accepts submissions
+ * Example #3: Given the forms endpoint accepts submissions
  * Example #4: And the form endpoint accepts submissions
- * Example #5: Given the webflow form endpoint accepts all submissions
+ * Example #5: Given the form endpoint accepts all submissions
  *
  */
-Given(/^the (?:webflow )?forms? endpoint accepts (?:all )?submissions$/, async function () {
+Given(/^the forms? endpoint accepts (?:all )?submissions$/, async function () {
   await answerFormEndpoint(this, 200, { msg: 'ok', code: 200 });
 });
 
@@ -79,14 +79,14 @@ Given(/^the (?:webflow )?forms? endpoint accepts (?:all )?submissions$/, async f
  * form is rejected: the runtime keeps the form and shows its error message.
  * Nothing leaves the browser. Give it before opening the page.
  *
- * Example #1: Given the webflow form endpoint rejects submissions
+ * Example #1: Given the form endpoint rejects submissions
  * Example #2: Given the form endpoint rejects submissions
- * Example #3: Given the webflow forms endpoint rejects submissions
+ * Example #3: Given the forms endpoint rejects submissions
  * Example #4: And the form endpoint rejects submissions
- * Example #5: Given the webflow form endpoint rejects all submissions
+ * Example #5: Given the form endpoint rejects all submissions
  *
  */
-Given(/^the (?:webflow )?forms? endpoint rejects (?:all )?submissions$/, async function () {
+Given(/^the forms? endpoint rejects (?:all )?submissions$/, async function () {
   await answerFormEndpoint(this, 500, { msg: 'Form submission failed', code: 500 });
 });
 
@@ -100,12 +100,12 @@ Given(/^the (?:webflow )?forms? endpoint rejects (?:all )?submissions$/, async f
  *
  * Example #1: Given the Turnstile challenge passes
  * Example #2: Given the form challenge passes
- * Example #3: Given the webflow form challenge passes
+ * Example #3: Given the form challenge passes
  * Example #4: And the Turnstile challenge passes
  * Example #5: Given the Turnstile challenge always passes
  *
  */
-Given(/^the (?:webflow form |form )?(?:Turnstile )?challenge (?:always )?passes$/, async function () {
+Given(/^the (?:form )?(?:Turnstile )?challenge (?:always )?passes$/, async function () {
   await this.page.route(TURNSTILE_SCRIPT, (route) => route.fulfill({ status: 200, contentType: 'application/javascript', body: TURNSTILE_STUB }));
 });
 
@@ -117,14 +117,14 @@ Given(/^the (?:webflow form |form )?(?:Turnstile )?challenge (?:always )?passes$
  * success or error steps look at. Fill the fields beforehand with webship-js's
  * "fill in" steps.
  *
- * Example #1: When I submit the webflow form
- * Example #2: When we submit the webflow form
+ * Example #1: When I submit the form
+ * Example #2: When we submit the form
  * Example #3: And I submit the form
  * Example #4: When I submit the "Contact Form" form
- * Example #5: And we submit the "Newsletter" webflow form
+ * Example #5: And we submit the "Newsletter" form
  *
  */
-When(/^(I |we )*submit the (?:"([^"]*)" )?(?:webflow )?form$/, async function (pronounCase, name) {
+When(/^(I |we )*submit the (?:"([^"]*)" )?form$/, async function (pronounCase, name) {
   const index = await this.page.evaluate((formName) => {
     const wrappers = [...document.querySelectorAll('.w-form')];
     const visible = (el) => Boolean(el && (el.offsetWidth || el.offsetHeight || el.getClientRects().length));
@@ -177,14 +177,14 @@ When(/^(I |we )*submit the (?:"([^"]*)" )?(?:webflow )?form$/, async function (p
  * submission. It looks at the form the scenario submitted last, or at any
  * form of the page when none was.
  *
- * Example #1: Then I should see the webflow form success message
- * Example #2: Then I should see the webflow form success state
+ * Example #1: Then I should see the form success message
+ * Example #2: Then I should see the form success state
  * Example #3: And we should see the form success message
- * Example #4: Then I should not see the webflow form success message
+ * Example #4: Then I should not see the form success message
  * Example #5: And I should see the form success state
  *
  */
-Then(/^(I |we )*should( not)* see the (?:webflow )?form success (?:message|state)$/, async function (pronounCase, notCase) {
+Then(/^(I |we )*should( not)* see the form success (?:message|state)$/, async function (pronounCase, notCase) {
   await assertPresence(formScope(this).locator('.w-form-done'), notCase, {
     label: 'the Webflow form success message (.w-form-done)',
     hint: 'The runtime shows `.w-form-done` after the form endpoint answers `{"code": 200}`; submit the form first, and check the endpoint (or "the form endpoint accepts submissions") answers.',
@@ -197,14 +197,14 @@ Then(/^(I |we )*should( not)* see the (?:webflow )?form success (?:message|state
  * visible: the state the runtime shows when the form endpoint refuses a
  * submission or cannot be reached.
  *
- * Example #1: Then I should see the webflow form error message
- * Example #2: Then I should see the webflow form error state
+ * Example #1: Then I should see the form error message
+ * Example #2: Then I should see the form error state
  * Example #3: And we should see the form error message
- * Example #4: Then I should not see the webflow form error message
+ * Example #4: Then I should not see the form error message
  * Example #5: And I should see the form error state
  *
  */
-Then(/^(I |we )*should( not)* see the (?:webflow )?form error (?:message|state)$/, async function (pronounCase, notCase) {
+Then(/^(I |we )*should( not)* see the form error (?:message|state)$/, async function (pronounCase, notCase) {
   await assertPresence(formScope(this).locator('.w-form-fail'), notCase, {
     label: 'the Webflow form error message (.w-form-fail)',
     hint: 'The runtime shows `.w-form-fail` when the form endpoint answers anything but `{"code": 200}`; submit the form first, and check the endpoint (or "the form endpoint rejects submissions") answers.',
@@ -218,12 +218,12 @@ Then(/^(I |we )*should( not)* see the (?:webflow )?form error (?:message|state)$
  *
  * Example #1: Then the form success message should contain "Thank you"
  * Example #2: Then the form error message should contain "Something went wrong"
- * Example #3: And the webflow form success message should contain "received"
+ * Example #3: And the form success message should contain "received"
  * Example #4: Then the form error message should not contain "Thank you"
- * Example #5: And the webflow form success message should not contain "Oops"
+ * Example #5: And the form success message should not contain "Oops"
  *
  */
-Then(/^the (?:webflow )?form (success|error) message should( not)* contain "([^"]*)"$/, async function (kind, notCase, text) {
+Then(/^the form (success|error) message should( not)* contain "([^"]*)"$/, async function (kind, notCase, text) {
   const selector = kind === 'success' ? '.w-form-done' : '.w-form-fail';
   const message = formScope(this).locator(selector).filter({ hasText: new RegExp(escapeRe(text)) }).first();
   try {
@@ -244,14 +244,14 @@ Then(/^the (?:webflow )?form (success|error) message should( not)* contain "([^"
  * a Cloudflare Turnstile site key on the form (`data-turnstile-sitekey`, the
  * default for new Webflow forms) or a reCAPTCHA element (`.w-form-formrecaptcha`).
  *
- * Example #1: Then the webflow form should be protected by a challenge
+ * Example #1: Then the form should be protected by a challenge
  * Example #2: Then the form should be protected by a challenge
- * Example #3: And the webflow form should not be protected by a challenge
+ * Example #3: And the form should not be protected by a challenge
  * Example #4: Then the "Contact Form" form should be protected by a challenge
  * Example #5: And the "Newsletter" form should not be protected by a challenge
  *
  */
-Then(/^the (?:"([^"]*)" )?(?:webflow )?form should( not)* be protected by a challenge$/, async function (name, notCase) {
+Then(/^the (?:"([^"]*)" )?form should( not)* be protected by a challenge$/, async function (name, notCase) {
   const lookup = (formName) => {
     const forms = [...document.querySelectorAll('.w-form form')].filter((f) => formName === null || [f.getAttribute('data-name'), f.getAttribute('name'), f.id, f.getAttribute('aria-label')].includes(formName));
     return {
@@ -276,13 +276,13 @@ Then(/^the (?:"([^"]*)" )?(?:webflow )?form should( not)* be protected by a chal
  * challenge passes.
  *
  * Example #1: Then the form submit button should be disabled
- * Example #2: Then the webflow form submit button should be disabled
+ * Example #2: Then the form submit button should be disabled
  * Example #3: And the form submit button should not be disabled
- * Example #4: Then the webflow form submit button should not be disabled
+ * Example #4: Then the form submit button should not be disabled
  * Example #5: And the form submit button should be disabled
  *
  */
-Then(/^the (?:webflow )?form submit button should( not)* be disabled$/, async function (notCase) {
+Then(/^the form submit button should( not)* be disabled$/, async function (notCase) {
   const submit = formScope(this).locator(SUBMIT).first();
   try {
     await submit.waitFor({ state: 'attached', timeout: budget(this) });
