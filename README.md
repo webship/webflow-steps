@@ -1,3 +1,5 @@
+<p align="center"><img src="https://raw.githubusercontent.com/webship/webflow-steps/2.0.x/assets/logo.svg" alt="Webflow logo" width="96"></p>
+
 # webflow-steps
 
 Step definitions for [webship-js](https://www.npmjs.com/package/webship-js), a Playwright and Cucumber test framework, that understand the markup **Webflow itself publishes**: the Navbar and its mobile menu, the link of the current page, CMS collection lists, forms with their success and error states, Tabs, Sliders, Dropdowns, Lightboxes, the Ecommerce cart and checkout, the Background Video control, and the ids Webflow stamps on every page. They let a team write readable Gherkin scenarios for a Webflow site, a published one or a code export, without hand-writing CSS selectors.
@@ -245,3 +247,7 @@ The package is published to npmjs.com as [`@webship-js/webflow-steps`](https://w
 ## License
 
 MIT
+
+## Logo
+
+The Webflow logo in this README comes from Simple Icons 16.37.0 (CC0-1.0), filled with the colour the set lists for the brand. The Webflow name and logo are trademarks of their owner; this pack is not affiliated with or endorsed by them.
