@@ -70,14 +70,14 @@ function navLinkState(text) {
  * Assert the Webflow Navbar (`.w-nav`) is, or is not, visible. A header that
  * was built from plain elements instead of the Navbar element has no `.w-nav`.
  *
- * Example #1: Then I should see the webflow navigation menu
- * Example #2: Then I should see the webflow navigation
+ * Example #1: Then I should see the navigation menu
+ * Example #2: Then I should see the navigation
  * Example #3: And we should see the navigation menu
- * Example #4: Then I should not see the webflow navigation
+ * Example #4: Then I should not see the navigation
  * Example #5: And I should see the navigation
  *
  */
-Then(/^(I |we )*should( not)* see the (?:webflow )?navigation( menu)?$/, async function (pronounCase, notCase, menuCase) {
+Then(/^(I |we )*should( not)* see the navigation( menu)?$/, async function (pronounCase, notCase, menuCase) {
   await assertPresence(this.page.locator(SELECTORS.navbar), notCase, {
     label: 'the Webflow Navbar (.w-nav)',
     hint: 'A page built with the Navbar element wraps its menu in `.w-nav`; a header made from plain elements has none, and the Navbar is hidden when its section is.',
@@ -176,11 +176,11 @@ Then(/^the "([^"]*)" navigation link should( not)* be the current page$/, async 
  * Example #1: Then the navigation should list "Home"
  * Example #2: And the navigation menu should list "Services"
  * Example #3: Then the navigation should not list "Admin"
- * Example #4: And the webflow navigation should list "Contact"
+ * Example #4: And the navigation should list "Contact"
  * Example #5: Then the navigation menu should not list "Login"
  *
  */
-Then(/^the (?:webflow )?navigation( menu)? should( not)* list "([^"]*)"$/, async function (menuCase, notCase, text) {
+Then(/^the navigation( menu)? should( not)* list "([^"]*)"$/, async function (menuCase, notCase, text) {
   const link = this.page.locator(SELECTORS.links).filter({ hasText: new RegExp(`^\\s*(?:${escapeRe(text)}\\s*){1,2}$`) }).first();
   try {
     await link.waitFor({ state: notCase ? 'detached' : 'attached', timeout: budget(this) });

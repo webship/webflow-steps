@@ -9,8 +9,8 @@ Feature: Home page
     Given I am an anonymous user
     And I set the viewport to the "desktop" breakpoint
     When I am on the homepage
-    Then this should be a webflow page
-    And I should see the webflow navigation menu
+    Then this should be a published page
+    And I should see the navigation menu
     And I should see "Build faster with our demo product"
     And I should see 3 items in the "features" collection list
     And the "features" collection list should contain "Reliable"
@@ -31,20 +31,20 @@ Feature: Home page
     And the "About" navigation link should be the current page
 
   Scenario: Subscribe to the newsletter successfully
-    Given the webflow form endpoint accepts submissions
+    Given the form endpoint accepts submissions
     And I am an anonymous user
     When I am on the homepage
     And I fill in "email" with "visitor@example.com" by "name" attribute
     And I submit the "Newsletter" form
-    Then I should see the webflow form success message
+    Then I should see the form success message
     And the form success message should contain "Thank you"
 
   Scenario: Newsletter submission shows an error state
-    Given the webflow form endpoint rejects submissions
+    Given the form endpoint rejects submissions
     And I am an anonymous user
     When I am on the homepage
     And I fill in "email" with "visitor@example.com" by "name" attribute
-    And I submit the webflow form
-    Then I should see the webflow form error message
-    And I should not see the webflow form success message
+    And I submit the form
+    Then I should see the form error message
+    And I should not see the form success message
     And the form error message should contain "Something went wrong"

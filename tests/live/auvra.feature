@@ -16,10 +16,10 @@ Feature: The Auvra template site on webflow.io
   Scenario: The home page: page ids, Navbar, tabs, slider and collection lists
     Given I set the viewport to the "desktop" breakpoint
     When I am on "/"
-    Then this should be a webflow page
-    And this should be the webflow site "6a282ca3f318327eefc29a02"
-    And I should see the Webflow badge
-    And I should see the webflow navigation
+    Then this should be a published page
+    And this should be the site "6a282ca3f318327eefc29a02"
+    And I should see the hosting badge
+    And I should see the navigation
     And the navigation should list "Contact Us"
     And the "Home" navigation link should be the current page
     And the "Projects" navigation link should not be the current page
@@ -45,7 +45,7 @@ Feature: The Auvra template site on webflow.io
     Then the mobile menu should be closed
 
   Scenario: A Turnstile-protected form shows the success state
-    Given the webflow form endpoint accepts submissions
+    Given the form endpoint accepts submissions
     And the Turnstile challenge passes
     When I am on "/contact"
     Then the "Contact Form" form should be protected by a challenge
@@ -55,11 +55,11 @@ Feature: The Auvra template site on webflow.io
     And I select "$5k - $10K" from "Budget"
     And I fill in "Tell Us your boldest idea?" with "A test message that is never sent."
     And I submit the "Contact Form" form
-    Then I should see the webflow form success message
+    Then I should see the form success message
     And the form success message should contain "Thank you"
 
   Scenario: A Turnstile-protected form shows the error state
-    Given the webflow form endpoint rejects submissions
+    Given the form endpoint rejects submissions
     And the Turnstile challenge passes
     When I am on "/contact"
     And I fill in "Name" with "Test Visitor"
@@ -68,5 +68,5 @@ Feature: The Auvra template site on webflow.io
     And I select "$5k - $10K" from "Budget"
     And I fill in "Tell Us your boldest idea?" with "A test message that is never sent."
     And I submit the "Contact Form" form
-    Then I should see the webflow form error message
-    And I should not see the webflow form success message
+    Then I should see the form error message
+    And I should not see the form success message

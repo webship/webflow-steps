@@ -9,8 +9,8 @@ Feature: Contact page
     Given I am an anonymous user
     And I set the viewport to the "desktop" breakpoint
     When I am on the "/contact.html" page
-    Then this should be a webflow page
-    And I should see the webflow navigation menu
+    Then this should be a published page
+    And I should see the navigation menu
     And I should see "Contact us"
     And the "Contact" navigation link should be the current page
 
@@ -22,7 +22,7 @@ Feature: Contact page
     And the form submit button should be disabled
 
   Scenario: Submit the contact form successfully
-    Given the webflow form endpoint accepts submissions
+    Given the form endpoint accepts submissions
     And the Turnstile challenge passes
     And I am an anonymous user
     When I am on the "/contact.html" page
@@ -30,11 +30,11 @@ Feature: Contact page
     And I fill in "Email" with "jane@example.com"
     And I fill in "Message" with "How can we help?"
     And I submit the "Contact Form" form
-    Then I should see the webflow form success message
+    Then I should see the form success message
     And the form success message should contain "Your submission has been received"
 
   Scenario: Contact form submission shows an error state
-    Given the webflow form endpoint rejects submissions
+    Given the form endpoint rejects submissions
     And the Turnstile challenge passes
     And I am an anonymous user
     When I am on the "/contact.html" page
@@ -42,8 +42,8 @@ Feature: Contact page
     And I fill in "Email" with "jane@example.com"
     And I fill in "Message" with "How can we help?"
     And I submit the "Contact Form" form
-    Then I should see the webflow form error message
-    And I should not see the webflow form success message
+    Then I should see the form error message
+    And I should not see the form success message
 
   @mobile
   Scenario: View the contact page on mobile

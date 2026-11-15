@@ -8,7 +8,7 @@ Feature: The Clientflow template site on webflow.io
 
   Scenario: A dropdown opens and closes, on a site without the badge
     When I am on "/"
-    Then I should not see the Webflow badge
+    Then I should not see the hosting badge
     And the "What is Clientflow?" dropdown should be closed
     When I open the "What is Clientflow?" dropdown
     Then the "What is Clientflow?" dropdown should be open

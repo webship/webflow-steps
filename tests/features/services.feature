@@ -9,8 +9,8 @@ Feature: Services page
     Given I am an anonymous user
     And I set the viewport to the "desktop" breakpoint
     When I am on the "/services.html" page
-    Then this should be a webflow page
-    And I should see the webflow navigation menu
+    Then this should be a published page
+    And I should see the navigation menu
     And I should see "Our services"
     And I should see 2 items in the "pricing" collection list
     And the "pricing" collection list should contain "Starter"

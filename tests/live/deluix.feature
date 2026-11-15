@@ -8,5 +8,5 @@ Feature: The Deluix template site on webflow.io
 
   Scenario: The hero background video plays
     When I am on "/"
-    Then this should be a webflow page
+    Then this should be a published page
     And the background video should be playing
