@@ -117,7 +117,10 @@ A green first run prints every step, then the summary (the starter feature of
 it wrote:
 
 ```
-FIRSTRUN
+3 scenarios (3 passed)
+12 steps (12 passed)
+0m02.998s (executing steps: 0m02.963s)
+[webship-js] HTML report → …/webflow-tests/tests/reports/cucumber_report.html
 ```
 
 From there, copy the features of [`tests/features/`](tests/features/) (they
