@@ -10,13 +10,13 @@ Feature: Named selectors
     Given I am an anonymous user
     And I set the viewport to the "desktop" breakpoint
     When I am on the homepage
-    Then I see visible navbar, navbar logo, collection list, collection item, webflow form, form submit button
+    Then I see visible navbar, navbar logo, collection list, collection item, form, form submit button
     And I see navbar above collection list
-    And I don't see form success message, form error message, webflow badge
+    And I don't see form success message, form error message, hosting badge
 
   Scenario: The parts of the components page
     Given I am an anonymous user
     And I set the viewport to the "desktop" breakpoint
     When I am on the "/components.html" page
-    Then I see visible tabs, selected tab, shown tab panel, slider, slide, slider arrow next, dropdown toggle, background video, background video control, webflow badge
+    Then I see visible tabs, selected tab, shown tab panel, slider, slide, slider arrow next, dropdown toggle, background video, background video control, hosting badge
     And I don't see open dropdown list, lightbox backdrop

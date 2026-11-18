@@ -41,7 +41,7 @@ Then(/^this( page)? should( not)* be a published page$/, async function (pageCas
  * Example #1: Then this should be the site "6a282ca3f318327eefc29a02"
  * Example #2: Then this page should be the site "6a906778b7eda4ebf3917813"
  * Example #3: And this should be the site "69d62bbcbf9a56f0284fdb53"
- * Example #4: Then this page should be the site "webflow-steps-demo"
+ * Example #4: Then this page should be the site "6a1f3c0b9d2e4a5b8c7d6e01"
  * Example #5: And this should be the site "6a083ff5f8d83bda5c5b3e15"
  *
  */

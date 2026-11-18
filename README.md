@@ -156,19 +156,21 @@ webship-js's named-selector steps (`Then I see visible <name>`, `Then I don't se
 | Name | Markup |
 | --- | --- |
 | `navbar`, `navbar menu`, `navbar button`, `navbar logo`, `navbar link`, `current page link` | the Navbar and its links |
-| `webflow form`, `form success message`, `form error message`, `form submit button` | forms |
+| `form`, `form success message`, `form error message`, `form submit button` | forms |
 | `collection list`, `collection item`, `collection empty message` | CMS collection lists |
 | `tabs`, `tab link`, `selected tab`, `tab panel`, `shown tab panel` | Tabs |
 | `slider`, `slide`, `slider arrow previous`, `slider arrow next`, `slider dots` | Slider |
 | `dropdown`, `dropdown toggle`, `dropdown list`, `open dropdown list` | Dropdown |
 | `lightbox`, `lightbox backdrop` | Lightbox (the backdrop only while open) |
 | `cart`, `cart open link`, `cart close link`, `cart container`, `cart empty message`, `cart checkout button`, `add to cart button`, `out of stock message`, `add to cart error`, `checkout form` | Ecommerce |
-| `background video`, `background video control`, `webflow badge`, `rich text` | media and page |
+| `background video`, `background video control`, `hosting badge`, `rich text` | media and page |
+
+The names `form` and `hosting badge` were `webflow form` and `webflow badge` in 2.1; the old names still work.
 
 ```gherkin
 When I am on the homepage
-Then I see visible navbar, collection list, webflow form
-And I don't see form success message, webflow badge
+Then I see visible navbar, collection list, form
+And I don't see form success message, hosting badge
 ```
 
 ## Forms: success and error states
