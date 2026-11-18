@@ -14,6 +14,7 @@ Feature: Ecommerce
   Scenario: The cart of a new visitor is closed and empty
     When I am on the "/shop.html" page
     Then the cart should be closed
+    And I should not see the checkout form
     And the cart should be empty
     When I open the cart
     Then the cart should be open
@@ -43,3 +44,30 @@ Feature: Ecommerce
   Scenario: A product that is out of stock
     When I am on the "/shop.html" page
     Then the product should be out of stock
+
+  Scenario: A product with an option goes to the cart once the option is chosen
+    When I am on the "/gift-card.html" page
+    Then the product should not be out of stock
+    And I should not see the add to cart error
+    When I add the product to the cart
+    Then I should see the add to cart error
+    And I should see "Please select an option in each set."
+    And the cart should be empty
+    When I select "50" from "Card amount"
+    And I add the product to the cart
+    Then I should not see the add to cart error
+    And the cart should contain 1 item
+    And the cart should contain "Gift card"
+
+  Scenario: The checkout of digital products only asks for no shipping
+    When I am on the "/gift-card.html" page
+    And I select "25" from "Card amount"
+    And I add the product to the cart
+    And I continue to checkout
+    Then I should be on "/checkout.html"
+    And I should see the checkout form
+    And the checkout form should have the "customer information" section
+    And the checkout form should not have the "shipping address" section
+    And the checkout form should not have the "shipping methods" section
+    And the checkout form should have the "payment" section
+    And the checkout form should have the "order summary" section

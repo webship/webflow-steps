@@ -29,9 +29,12 @@ Feature: Contact page
     And I fill in "Name" with "Jane Doe"
     And I fill in "Email" with "jane@example.com"
     And I fill in "Message" with "How can we help?"
-    And I submit the "Contact Form" form
+    Then the form submit button should not be disabled
+    When I submit the "Contact Form" form
     Then I should see the form success message
     And the form success message should contain "Your submission has been received"
+    And the form success message should not contain "Something went wrong"
+    And I should not see the form error message
 
   Scenario: Contact form submission shows an error state
     Given the form endpoint rejects submissions

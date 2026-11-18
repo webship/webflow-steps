@@ -20,7 +20,9 @@
 // - Ecommerce: the Add to cart button puts the product in the cart (kept in the
 //   browser's session storage, as a cart is kept across the pages of a site),
 //   which updates the count in the open link, lists the item and the total,
-//   and opens the cart; the open and close links show and hide the cart;
+//   and opens the cart; the open and close links show and hide the cart; a
+//   product with an option that is not chosen shows the add to cart error
+//   instead, and a checkout of digital products only hides the shipping sections;
 // - Background Video: the control pauses and plays the video and swaps which of
 //   its two labels is hidden;
 // - forms: a form with `data-turnstile-sitekey` keeps its submit button
@@ -300,6 +302,11 @@
       form.style.display = items.length ? '' : 'none';
       empty.style.display = items.length ? 'none' : '';
       total.textContent = items.length ? '$' + sum.toFixed(2) + ' USD' : '';
+      // Like Webflow's checkout: an order of digital products only asks for no shipping.
+      var digitalOnly = items.length > 0 && items.every(function (item) { return item.digital; });
+      Array.prototype.forEach.call(document.querySelectorAll('.w-commerce-commercecheckoutshippingaddresswrapper, .w-commerce-commercecheckoutshippingmethodswrapper'), function (section) {
+        section.style.display = digitalOnly ? 'none' : '';
+      });
       var summary = document.querySelector('.w-commerce-commercecheckoutorderitemslist');
       if (summary) {
         summary.textContent = items.map(function (item) { return item.name; }).join(', ');
@@ -314,8 +321,19 @@
       addForm.addEventListener('submit', function (event) {
         event.preventDefault();
         var card = addForm.closest('.product-card');
+        var error = card.querySelector('.w-commerce-commerceaddtocarterror');
+        // Like Webflow's runtime: a product with options goes to the cart only once
+        // every option is chosen; otherwise the error shows its "select all options" text.
+        var missing = Array.prototype.some.call(addForm.querySelectorAll('[data-node-type="commerce-add-to-cart-option-select"]'), function (select) { return !select.value; });
+        if (missing) {
+          var message = error.querySelector('[data-w-add-to-cart-select-all-options-error]');
+          message.textContent = message.getAttribute('data-w-add-to-cart-select-all-options-error');
+          error.style.display = '';
+          return;
+        }
+        if (error) error.style.display = 'none';
         var items = readCart();
-        items.push({ name: card.querySelector('.product-name').textContent, price: parseFloat(card.querySelector('.product-price').textContent.replace('$', '')) });
+        items.push({ name: card.querySelector('.product-name').textContent, price: parseFloat(card.querySelector('.product-price').textContent.replace('$', '')), digital: card.getAttribute('data-product-type') === 'digital' });
         sessionStorage.setItem('wf-demo-cart', JSON.stringify(items));
         render();
         if (wrapper.hasAttribute('data-open-product')) show(true);

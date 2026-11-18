@@ -34,6 +34,7 @@ Feature: Home page
     Given the form endpoint accepts submissions
     And I am an anonymous user
     When I am on the homepage
+    Then the "Newsletter" form should not be protected by a challenge
     And I fill in "email" with "visitor@example.com" by "name" attribute
     And I submit the "Newsletter" form
     Then I should see the form success message
