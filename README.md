@@ -112,6 +112,7 @@ Feature: First run
 npm test
 ```
 
+(The demo served without DDEV: `LAUNCH_URL=http://localhost:8080 npm test`.)
 A green first run prints every step, then the summary (the starter feature of
 `npx init-webship-js` and the two scenarios above, passed) and the HTML report
 it wrote:
