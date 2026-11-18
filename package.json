@@ -53,9 +53,9 @@
     "webship-js": "^2.0.6"
   },
   "devDependencies": {
-    "webship-js": "^2.0.6",
     "ts-node": "^10.9.2",
-    "typescript": "~5.9.0"
+    "typescript": "~5.9.0",
+    "webship-js": "^2.0.14"
   },
   "overrides": {
     "@cucumber/cucumber": "^12"
