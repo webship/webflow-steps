@@ -17,6 +17,8 @@ Feature: About page
     And the "team" collection list should contain "Ava Stone"
     And the "About" navigation link should be the current page
     And the "Home" navigation link should not be the current page
+    And the background video should be playing
+    And the background video should not have a pause control
 
   Scenario: A collection with no items shows the empty message
     Given I am an anonymous user

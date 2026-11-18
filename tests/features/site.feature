@@ -20,3 +20,10 @@ Feature: Webflow site
     Given I am an anonymous user
     When I am on the homepage
     Then I should not see the hosting badge
+
+  Scenario: A page served beside the site is not a published page
+    Given I am an anonymous user
+    When I am on the "/plain.html" page
+    Then this page should not be a published page
+    And I should not see the navigation
+    And I should see "A plain page"
