@@ -17,6 +17,7 @@
     "test:webkit": "BROWSER=webkit cucumber-js --config cucumber.js",
     "test:report": "generate-reports",
     "test:examples": "node scripts/check-examples.js",
+    "test:paths": "node scripts/check-paths.js",
     "test:live": "node scripts/run-live.js",
     "demo:start": "cd demo-site && ddev start",
     "demo:stop": "cd demo-site && ddev stop",
