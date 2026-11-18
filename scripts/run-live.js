@@ -2,8 +2,8 @@
 
 // Runs the read-only checks of tests/live/ against public Webflow template
 // sites. Each file is named after the site it runs against:
-// `tests/live/auvra.feature` runs with LAUNCH_URL=https://auvra.webflow.io.
-// `npm run test:live` runs them all; `npm run test:live -- auvra` runs one.
+// `tests/live/koorse.feature` runs with LAUNCH_URL=https://koorse.webflow.io.
+// `npm run test:live` runs them all; `npm run test:live -- koorse` runs one.
 // They are outside the default run because they need the network and the
 // sites belong to their authors. A page that is slow to answer is retried
 // twice.
