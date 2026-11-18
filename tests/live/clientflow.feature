@@ -1,5 +1,5 @@
 # A read-only check of the pack against a public Webflow template site; the file
-# name is the site (https://clientflow.webflow.io). See tests/live/auvra.feature.
+# name is the site (https://clientflow.webflow.io). See tests/live/koorse.feature.
 @live
 Feature: The Clientflow template site on webflow.io
   As a maintainer of the pack

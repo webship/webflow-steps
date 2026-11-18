@@ -206,11 +206,11 @@ Use them on a staging copy of the site or on a read-only check. They do not bypa
 
 ## Run the steps against a public Webflow site
 
-`tests/live/` holds read-only checks against public Webflow template sites (`auvra`, `koorse`, `clientflow`, `deluix`), to prove the steps read what a real Webflow runtime produces, and not only what `demo-site/` serves. The file name is the site: `tests/live/auvra.feature` runs against `https://auvra.webflow.io`.
+`tests/live/` holds read-only checks against public Webflow template sites (`koorse`, `clientflow`, `deluix`), to prove the steps read what a real Webflow runtime produces, and not only what `demo-site/` serves. The file name is the site: `tests/live/koorse.feature` runs against `https://koorse.webflow.io`. The tabs and the mobile menu are proven on `demo-site/` only: the tabs of these sites are FAQs whose links hold the answer text too, and their mobile menus are the templates' own, not the Navbar's (Koorse keeps an empty `.w-nav-button` with no size).
 
 ```bash
 npm run test:live              # every file in tests/live
-npm run test:live -- auvra     # one site
+npm run test:live -- koorse    # one site
 ```
 
 They are outside the default run: they need the network, and the sites belong to their authors. Nothing is submitted to them; the form endpoint and the Turnstile challenge are test doubles.
