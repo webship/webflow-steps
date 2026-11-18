@@ -58,6 +58,19 @@ module.exports = {
 
 Run `npx cucumber-js --dry-run` once: it reports any undefined or ambiguous step before a browser opens.
 
+## Test users
+
+None. The suite tests the demo site of this repository (`demo-site/`, static
+pages with the markup of a published Webflow site), which has no sign-in:
+`cucumber.js` lists no accounts (its `worldParameters` has no `users`) and no
+scenario signs in. The form and cart steps need no account either: the form
+endpoint and the Turnstile challenge are test doubles, and the cart of the demo
+lives in the browser. The JSON of the accounts is empty:
+
+```json
+{}
+```
+
 ## Quick start (this repository)
 
 ```bash
