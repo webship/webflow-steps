@@ -27,6 +27,134 @@ The steps that add to a cart or take an order change a store's data: run them ag
 
 Steps that webship-js already covers (clicking, filling in a field, asserting a text, a URL or a status code) are not repeated here; the scenarios use webship-js's own.
 
+## From nothing to a green run
+
+What the machine needs: git, Node.js 20 or later with npm, and [DDEV](https://ddev.com)
+for the demo site (or no container at all: `npx http-server` serves the same pages).
+
+**1. The site.** The demo site of this repository: static pages with the markup,
+state classes and form behaviour of a published Webflow site (the Navbar,
+CMS collection lists, forms, tabs, a slider, dropdowns, a lightbox, the
+Ecommerce cart and checkout, a background video). Start it with DDEV:
+
+```bash
+git clone https://github.com/webship/webflow-steps.git
+cd webflow-steps/demo-site
+ddev start
+```
+
+The site answers at `http://webflow-steps-demo.ddev.site`. Without DDEV, from
+the `webflow-steps` folder, `npx http-server demo-site -p 8080 -s` serves it at
+`http://localhost:8080`; leave it running in its own terminal.
+
+**2. A test project**, in another folder:
+
+```bash
+mkdir webflow-tests && cd webflow-tests
+npm init -y
+npm install --save-dev webship-js @webship-js/webflow-steps
+npx init-webship-js
+```
+
+`npx init-webship-js` writes `cucumber.js`, `playwright.config.ts`, the
+`tests/` folders with a first feature and the `npm test` scripts, and installs
+Chromium. npm usually runs it already when it installs webship-js; a second run
+changes nothing.
+
+**3. `cucumber.js`.** Replace the file with the wiring of the pack: the step
+files of webship-js and of the pack, and the address of the site. The suite
+needs no account (see [Test users](#test-users)).
+
+```javascript
+module.exports = {
+  default: {
+    requireModule: ['tsx/cjs'],
+    require: [
+      'node_modules/webship-js/tests/step-definitions/**/*.js',
+      'node_modules/@webship-js/webflow-steps/tests/step-definitions/**/*.js',
+      'tests/step-definitions/**/*.js',
+    ],
+    paths: ['tests/features/**/*.feature'],
+    format: ['@cucumber/pretty-formatter', 'json:tests/reports/cucumber_report.json'],
+    worldParameters: {
+      launchUrl: process.env.LAUNCH_URL || 'http://webflow-steps-demo.ddev.site',
+      // The waits webship-js adds around each page, scenario and step (milliseconds).
+      minWaitTime: { page: 3000, before_scenario: 0, after_scenario: 0, before_step: 0, after_step: 0 },
+    },
+  },
+};
+```
+
+With the site of `npx http-server`, run with `LAUNCH_URL=http://localhost:8080`.
+
+**4. A first feature**, `tests/features/first-run.feature`:
+
+```gherkin
+Feature: First run
+  Scenario: The home page is a published page with its Navbar
+    Given I am on the homepage
+    Then this should be a published page
+    And I should see the navigation
+    And the "Home" navigation link should be the current page
+    And I should see 3 items in the "features" collection list
+
+  Scenario: The newsletter form thanks the visitor
+    Given the form endpoint accepts submissions
+    When I am on the homepage
+    And I fill in "email" with "visitor@example.com" by "name" attribute
+    And I submit the "Newsletter" form
+    Then I should see the form success message
+```
+
+**5. Run it.**
+
+```bash
+npm test
+```
+
+A green first run prints every step, then the summary (the starter feature of
+`npx init-webship-js` and the two scenarios above, passed) and the HTML report
+it wrote:
+
+```
+3 scenarios (3 passed)
+12 steps (12 passed)
+0m02.998s (executing steps: 0m02.963s)
+[webship-js] HTML report → …/webflow-tests/tests/reports/cucumber_report.html
+```
+
+From there, copy the features of [`tests/features/`](tests/features/) (they
+also ship in the package, under
+`node_modules/@webship-js/webflow-steps/tests/features/`): together they use
+every step of the pack, against the pages of the demo site.
+
+### What the suite tests
+
+The features of this repository run every step of the pack against the demo
+site, and CI starts it with DDEV and runs them on every change: what a site
+publishes on every page (its page and site ids, the hosting badge, and a plain
+page beside it that is not published), the Navbar on desktop and its mobile
+menu, the link of the current page (nav links, link blocks, the brand), CMS
+collection lists (counts, the empty state, items hidden by conditional
+visibility), forms (the success and the error state with the endpoint double,
+the Turnstile challenge and its double, a form without a challenge, the submit
+button), tabs, a slider, dropdowns (opened by a click and on hover), a lightbox,
+the Ecommerce cart (open, close, count, items, total), the add to cart button
+(a product out of stock, an option not chosen), the checkout form (its sections,
+and the shipping sections an order of digital products leaves out), a
+background video and its control, and the named selectors of the pack. Every
+assertion runs in its positive and in its negative form.
+
+Not tested: Webflow's own runtime (`webflow.js`). The demo's small script stands
+in for it, so the suite proves that the steps read Webflow's markup and states,
+not that a given Webflow release produces them; the read-only checks of
+[`tests/live/`](tests/live/) run the steps on public template sites for that,
+outside CI. Also not tested: a real form submission and a real Turnstile
+challenge (both are test doubles), payments and orders (the checkout is a page;
+no order is placed), Memberships, Logic, Localization, CMS pagination and
+filters, and Interactions (animations). A run leaves nothing: the site is static
+and the cart lives in the browser.
+
 ## Requirements
 
 - Node.js 20 or later
