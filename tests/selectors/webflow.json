@@ -6,7 +6,7 @@
     "navbar logo": ".w-nav-brand",
     "navbar link": ".w-nav a[href]",
     "current page link": "a.w--current[aria-current=\"page\"], a.w--current",
-    "webflow form": ".w-form",
+    "form": ".w-form",
     "form success message": ".w-form-done",
     "form error message": ".w-form-fail",
     "form submit button": ".w-form input[type=\"submit\"], .w-form button[type=\"submit\"]",
@@ -41,8 +41,10 @@
     "checkout form": ".w-commerce-commercecheckoutformcontainer",
     "background video": ".w-background-video",
     "background video control": ".w-background-video--control",
-    "webflow badge": "a.w-webflow-badge",
-    "rich text": ".w-richtext"
+    "hosting badge": "a.w-webflow-badge",
+    "rich text": ".w-richtext",
+    "webflow form": ".w-form",
+    "webflow badge": "a.w-webflow-badge"
   },
   "xpath": {}
 }

@@ -5,7 +5,7 @@
 //
 // The named selectors for the markup Webflow renders
 // (`tests/selectors/webflow.json`: "navbar", "form success message",
-// "collection item", "shown tab panel", "cart", "webflow badge", ...) are
+// "collection item", "shown tab panel", "cart", "hosting badge", ...) are
 // merged into webship-js's selector registry after it has loaded the
 // project's own `worldParameters.selectors` and files, and never override a
 // name the project defined. So `Then I see visible navbar` works on any

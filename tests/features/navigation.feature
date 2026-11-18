@@ -22,7 +22,7 @@ Feature: Navigation
   Scenario: The brand link of the Navbar is the current page on the home page
     Given I am an anonymous user
     When I am on the homepage
-    Then the "Webflow Steps Demo" navigation link should be the current page
+    Then the "Webship Test Site" navigation link should be the current page
 
   @mobile
   Scenario: Opening an open menu and closing a closed menu change nothing
