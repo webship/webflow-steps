@@ -29,7 +29,7 @@ Steps that webship-js already covers (clicking, filling in a field, asserting a 
 
 ## From nothing to a green run
 
-What the machine needs: git, Node.js 20 or later with npm, and [DDEV](https://ddev.com)
+What the machine needs: git, Node.js 24 or later with npm, and [DDEV](https://ddev.com)
 for the demo site (or no container at all: `npx http-server` serves the same pages).
 
 **1. The site.** The demo site of this repository: static pages with the markup,
@@ -158,7 +158,7 @@ and the cart lives in the browser.
 
 ## Requirements
 
-- Node.js 20 or later
+- Node.js 24 or later
 - An existing webship-js 2.x test project, or this repository as a starting point
 - [DDEV](https://ddev.com), only to run the demo site of this repository
 
